@@ -3,19 +3,29 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from routes import main_routes
-db = SQLAlchemy()
+from userAuth.auth import auth_routes, db
 migrate = Migrate()
 
-def create_app():
-    app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # Configure as needed
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Initialize Flask app
+app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 
-    CORS(app)
-    db.init_app(app)
-    migrate.init_app(app, db)
+# Configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'  # Adjust as needed
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # Register blueprints
-    app.register_blueprint(main_routes)
+# Initialize extensions
+CORS(app)
+db.init_app(app)
+migrate = Migrate(app, db)
 
-    return app
+# Import and register blueprints after initializing db to avoid circular imports
+from routes import main_routes
+from userAuth.auth import auth_routes
+
+app.register_blueprint(main_routes)
+app.register_blueprint(auth_routes)
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
