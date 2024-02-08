@@ -1,51 +1,50 @@
 import React, { useState } from 'react';
 
-const Register = ({ onRegister }) => {
+function RegisterForm({ onRegister }) {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('/register', {  // Adjust the endpoint as necessary
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
-        });
-        if (response.ok) {
+        setError(''); // Reset error message
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
+                credentials: 'include',
+            });
             const data = await response.json();
-            onRegister(data);  // Notify the parent component about the registration
-        } else {
-            // Handle errors (e.g., show an error message)
-            // You might want to parse the response and set error messages based on the response from your backend
+            if (!response.ok) throw new Error(data.message || 'Failed to register');
+            onRegister(data); // You might want to auto-login the user here
+        } catch (error) {
+            setError(error.message);
         }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+            <div>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            <div>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
             <button type="submit">Register</button>
+            {error && <p className="error">{error}</p>}
         </form>
     );
-};
+}
 
-export default Register;
+export default RegisterForm;

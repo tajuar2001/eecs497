@@ -1,14 +1,12 @@
-// Welcome.jsx
 import React from 'react';
 
-function Welcome({ user, onLogout }) {
+function WelcomePage({ user, onLogout }) {
     return (
         <div>
-            Welcome, {user.name}! <br />
-            Logged in successfully.
+            <p>Welcome, {user.name}! <br /> Logged in successfully.</p>
             <button onClick={onLogout}>Logout</button>
         </div>
     );
 }
 
-export default Welcome;
+export default WelcomePage;

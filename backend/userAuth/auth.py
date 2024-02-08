@@ -4,6 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import Blueprint, jsonify, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
+
+
 auth_routes = Blueprint('auth_routes', __name__)
 
 from flask_sqlalchemy import SQLAlchemy
