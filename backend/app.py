@@ -12,6 +12,7 @@ app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 # Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'  # Adjust as needed
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = "secretkey_set_later"
 
 # Initialize extensions
 CORS(app)

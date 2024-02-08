@@ -39,11 +39,16 @@ def register():
 def login():
     username = request.json['username']
     password = request.json['password']
+
+    if not username or not password:
+        return jsonify({'message': 'Username and password are required'}), 400
+
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
         session['user_id'] = user.id  # You can use Flask sessions or JWT tokens for maintaining session
-        return jsonify({'message': 'Logged in successfully'})
+        return jsonify({'message': 'Logged in successfully', 'name': user.username}), 200
     return jsonify({'message': 'Invalid username or password'}), 401
+
 
 @auth_routes.route('/logout')
 def logout():

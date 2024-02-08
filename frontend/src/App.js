@@ -4,6 +4,7 @@ import './App.css';
 import Login from './components/loginForm.jsx';
 import Logout from './components/logoutForm.jsx';
 import Register from './components/registerForm.jsx';
+import Welcome from './components/welcomePage.jsx';
 
 
 function App() {
@@ -21,9 +22,22 @@ function App() {
         // setUser(userData);
     }, []);
 
-    const handleLogin = (userData) => {
-        setUser(userData);
-        // Additional login logic (e.g., setting a token in local storage)
+    const handleLogin = async (username, password) => {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            setUser({ name: data.name });
+            // Additional login logic here
+        } else {
+            // Handle login error
+            console.error('Login failed:', data.message);
+        }
     };
 
     const handleLogout = async () => {
@@ -50,11 +64,11 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
+                
                 <p>{message}</p>
                 {user ? (
                     <>
-                        <div>Welcome, {user.name}!</div>
-                        <Logout onLogout={handleLogout} />
+                        <Welcome user={user} onLogout={handleLogout} />
                     </>
                 ) : (
                     <>
