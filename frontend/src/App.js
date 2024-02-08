@@ -1,9 +1,9 @@
 import React, {useState, useEffect } from 'react'
 import logo from './logo.svg';
 import './App.css';
-import Login from '/home/tajuarb/Coding/eecs497/frontend/src/components/loginForm.jsx';
-import Logout from '/home/tajuarb/Coding/eecs497/frontend/src/components/logoutForm.jsx';
-import Register from '/home/tajuarb/Coding/eecs497/frontend/src/components/registerForm.jsx';
+import Login from './components/loginForm.jsx';
+import Logout from './components/logoutForm.jsx';
+import Register from './components/registerForm.jsx';
 
 
 function App() {
