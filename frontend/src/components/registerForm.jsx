@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './css/login_reg_style.css'; // Assuming you have a separate CSS file for LoginForm styles
 
 function RegisterForm({ onRegister, onBack }) { // Include onBack in the props
     const [username, setUsername] = useState('');

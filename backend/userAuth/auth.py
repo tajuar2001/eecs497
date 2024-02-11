@@ -34,8 +34,6 @@ def register():
     # Check if user exists
     print("for register:")
     print("Username: " + username + ", pswd: " + password)
-    if not username or not password:
-        return jsonify({'message': 'Username and password are required'}), 400
     if User.query.filter_by(username=username).first():
         return jsonify({'message': 'User already exists'}), 409
     new_user = User(username=username)

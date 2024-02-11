@@ -11,13 +11,6 @@ function App() {
     const [currentPage, setCurrentPage] = useState('landing');
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        fetch('/api/hello')
-            .then(response => response.json())
-            .then(data => setMessage(data.message))
-            .catch(error => setError('Failed to fetch welcome message.'));
-    }, []);
-
     const handleLogin = (userData) => {
         setUser(userData);
         setCurrentPage('landing');
@@ -43,9 +36,9 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                {message && <p>{message}</p>}
                 {error && <p className="error-message">{error}</p>}
-                {currentPage === 'landing' && <LandingPage onNavigate={navigate} />}
+                {currentPage === 'landing' && user && <LandingPage onNavigate={navigate} />}
+                {currentPage === 'landing' && !user && <LandingPage onNavigate={navigate} />}
                 {currentPage === 'login' && !user && (
                     <LoginForm onLogin={handleLogin} onBack={() => navigate('landing')} />
                 )}
