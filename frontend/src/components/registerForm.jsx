@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function RegisterForm({ onRegister }) {
+function RegisterForm({ onRegister, onBack }) { // Include onBack in the props
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -17,7 +17,7 @@ function RegisterForm({ onRegister }) {
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Failed to register');
-            onRegister(data); // You might want to auto-login the user here
+            onRegister(data); // Notifies the parent component about the registration
         } catch (error) {
             setError(error.message);
         }
@@ -41,7 +41,10 @@ function RegisterForm({ onRegister }) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button type="submit">Register</button>
+            <div className="form-actions">
+                <button type="submit">Register</button>
+                <button type="button" onClick={onBack}>Back</button> {/* Adds the Back button */}
+            </div>
             {error && <p className="error">{error}</p>}
         </form>
     );

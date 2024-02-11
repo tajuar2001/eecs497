@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function LoginForm({ onLogin }) {
+function LoginForm({ onLogin, onBack }) { // Added onBack prop
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -41,7 +41,10 @@ function LoginForm({ onLogin }) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button type="submit">Login</button>
+            <div className="form-actions">
+                <button type="submit">Login</button>
+                <button type="button" onClick={onBack}>Back</button> {/* Back button */}
+            </div>
             {error && <p className="error">{error}</p>}
         </form>
     );

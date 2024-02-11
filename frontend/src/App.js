@@ -3,12 +3,12 @@ import './App.css';
 import LoginForm from './components/loginForm';
 import LogoutButton from './components/logoutForm';
 import RegisterForm from './components/registerForm';
-import WelcomePage from './components/welcomePage';
+import LandingPage from './components/landingPage'; // Import the LandingPage component
 
 function App() {
     const [message, setMessage] = useState('');
     const [user, setUser] = useState(null);
-    const [showLogin, setShowLogin] = useState(true);
+    const [currentPage, setCurrentPage] = useState('landing');
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -20,44 +20,37 @@ function App() {
 
     const handleLogin = (userData) => {
         setUser(userData);
-        setShowLogin(false); // Ensure the login view is disabled when logged in
+        setCurrentPage('landing');
         setError('');
     };
 
     const handleLogout = () => {
         setUser(null);
-        setShowLogin(true); // Show the login form after logging out
+        setCurrentPage('landing');
         setError('');
     };
 
-    const handleRegister = async (userData) => {
-        // Assuming the registration process does not automatically log the user in
-        setShowLogin(true); // Show the login page to allow the user to log in after registering
+    const handleRegister = (userData) => {
+        setCurrentPage('login');
         setError('');
     };
 
-    const toggleView = () => {
-        setShowLogin(!showLogin);
+    const navigate = (page) => {
+        setCurrentPage(page);
         setError('');
     };
 
     return (
         <div className="App">
             <header className="App-header">
-                <p>{message}</p>
+                {message && <p>{message}</p>}
                 {error && <p className="error-message">{error}</p>}
-                {user ? (
-                    <WelcomePage user={user} onLogout={handleLogout} />
-                ) : showLogin ? (
-                    <>
-                        <LoginForm onLogin={handleLogin} />
-                        <button onClick={toggleView}>Register</button>
-                    </>
-                ) : (
-                    <>
-                        <RegisterForm onRegister={handleRegister} />
-                        <button onClick={toggleView}>Login</button>
-                    </>
+                {currentPage === 'landing' && <LandingPage onNavigate={navigate} />}
+                {currentPage === 'login' && !user && (
+                    <LoginForm onLogin={handleLogin} onBack={() => navigate('landing')} />
+                )}
+                {currentPage === 'register' && !user && (
+                    <RegisterForm onRegister={handleRegister} onBack={() => navigate('landing')} />
                 )}
             </header>
         </div>
