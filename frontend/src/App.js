@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import LoginForm from './components/loginForm';
-import LogoutButton from './components/logoutForm';
 import RegisterForm from './components/registerForm';
 import LandingPage from './components/landingPage'; // Import the LandingPage component
+import UserProfile from './components/userProfile';
 
 function App() {
     const [message, setMessage] = useState('');
@@ -37,12 +37,12 @@ function App() {
         <div className="App">
             <header className="App-header">
                 {error && <p className="error-message">{error}</p>}
-                {currentPage === 'landing' && user && <LandingPage onNavigate={navigate} />}
-                {currentPage === 'landing' && !user && <LandingPage onNavigate={navigate} />}
-                {currentPage === 'login' && !user && (
+                {user && <UserProfile user={user} onLogout={handleLogout} />}
+                {!user && currentPage === 'landing' && <LandingPage onNavigate={navigate} />}
+                {!user && currentPage === 'login' && (
                     <LoginForm onLogin={handleLogin} onBack={() => navigate('landing')} />
                 )}
-                {currentPage === 'register' && !user && (
+                {!user && currentPage === 'register' && (
                     <RegisterForm onRegister={handleRegister} onBack={() => navigate('landing')} />
                 )}
             </header>

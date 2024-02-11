@@ -1,5 +1,5 @@
 import React from 'react';
-import './landingpage.css'; // Assuming you have a separate CSS file for LandingPage styles
+import './css/landingpage.css'; // Assuming you have a separate CSS file for LandingPage styles
 
 function communityPage({ onNavigate }) {
   return (
