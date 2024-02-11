@@ -20,20 +20,27 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        #self.password_hash = generate_password_hash(password)
+        self.password_hash = password
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        #return check_password_hash(self.password_hash, password)
+        return (password == self.password_hash)
 
 @auth_routes.route('/register', methods=['POST'])
 def register():
     username = request.json['username']
     password = request.json['password']
     # Check if user exists
+    print("for register:")
+    print("Username: " + username + ", pswd: " + password)
+    if not username or not password:
+        return jsonify({'message': 'Username and password are required'}), 400
     if User.query.filter_by(username=username).first():
         return jsonify({'message': 'User already exists'}), 409
     new_user = User(username=username)
     new_user.set_password(password)
+    print("Hash: " + new_user.password_hash)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
@@ -47,6 +54,10 @@ def login():
         return jsonify({'message': 'Username and password are required'}), 400
 
     user = User.query.filter_by(username=username).first()
+    print("for login:")
+    print("Username: " + username + ", pswd: " + password)
+    print("hashed password: " + generate_password_hash(password))
+    print(check_password_hash(password, user.password_hash))
     if user and user.check_password(password):
         session['user_id'] = user.id  # You can use Flask sessions or JWT tokens for maintaining session
         return jsonify({'message': 'Logged in successfully', 'name': user.username}), 200
