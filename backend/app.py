@@ -5,6 +5,8 @@ from flask_migrate import Migrate
 from routes import main_routes
 from userAuth.auth import auth_routes, db
 from flask import request, render_template, jsonify, url_for, redirect, session
+from datetime import timedelta
+
 migrate = Migrate()
 
 # Initialize Flask app
@@ -14,7 +16,7 @@ app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'  # Adjust as needed
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "secretkey_set_later"
-
+app.permanent_session_lifetime = timedelta(minutes=5)
 # Initialize extensions
 CORS(app, supports_credentials=True)
 db.init_app(app)

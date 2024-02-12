@@ -6,7 +6,6 @@ from flask import Blueprint, jsonify, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 
-
 auth_routes = Blueprint('auth_routes', __name__)
 
 from flask_sqlalchemy import SQLAlchemy
@@ -43,16 +42,10 @@ def register():
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 
-@auth_routes.route('/login', methods=['POST'])
+@auth_routes.route('/login', methods=['GET','POST'])
 def login():
     username = request.json['username']
     password = request.json['password']
-
-    # check if session already exists
-    if (session.get('user_id', None)):
-        uname = User.query.filter_by(id=session['user_id']).first().username
-        print("alr logged in")
-        return jsonify({'message': 'Already logged in!', 'name': uname})
     if not username or not password:
         return jsonify({'message': 'Username and password are required'}), 400
 
@@ -63,11 +56,20 @@ def login():
     if user and user.check_password(password):
         session['user_id'] = user.id  # You can use Flask sessions or JWT tokens for maintaining session
         print(user.id)
+        session.permanent = True
         return jsonify({'message': 'Logged in successfully', 'name': user.username}), 200
     return jsonify({'message': 'Invalid username or password'}), 401
-
 
 @auth_routes.route('/logout', methods=["POST"])
 def logout():
     session.pop('user_id', None)
     return jsonify({'message': 'Logged out successfully'}), 200
+
+@auth_routes.route('/loggedIn', methods=["GET"])
+def isLoggedIn():
+    if (session.get('user_id', None)):
+        uname = User.query.filter_by(id=session['user_id']).first().username
+        print("alr logged in")
+        return jsonify({'message': 'Already logged in!', 'name': uname}), 200
+    else:
+        return jsonify({'message': 'No user currently logged in'}), 401
