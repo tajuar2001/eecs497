@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from routes import main_routes
 from userAuth.auth import auth_routes, db
-from flask import request, render_template, jsonify, url_for, redirect, g
+from flask import request, render_template, jsonify, url_for, redirect, session
 migrate = Migrate()
 
 # Initialize Flask app
@@ -30,4 +30,5 @@ app.register_blueprint(auth_routes)
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+
     app.run(debug=True)

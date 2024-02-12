@@ -9,9 +9,9 @@
 }
 
 .profile-name {
-    margin-right: 10px;
-    font-size: 1rem;
-    color: #333;
+    text-align: left;
+    font-size: 2rem;
+    color: white;
 }
 
 .logout-button {

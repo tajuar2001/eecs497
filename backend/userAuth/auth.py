@@ -20,12 +20,12 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
 
     def set_password(self, password):
-        #self.password_hash = generate_password_hash(password)
-        self.password_hash = password
+        self.password_hash = generate_password_hash(password)
+        #self.password_hash = password
 
     def check_password(self, password):
-        #return check_password_hash(self.password_hash, password)
-        return (password == self.password_hash)
+        return check_password_hash(self.password_hash, password)
+        #return (password == self.password_hash)
 
 @auth_routes.route('/register', methods=['POST'])
 def register():
@@ -48,6 +48,11 @@ def login():
     username = request.json['username']
     password = request.json['password']
 
+    # check if session already exists
+    if (session.get('user_id', None)):
+        uname = User.query.filter_by(id=session['user_id']).first().username
+        print("alr logged in")
+        return jsonify({'message': 'Already logged in!', 'name': uname})
     if not username or not password:
         return jsonify({'message': 'Username and password are required'}), 400
 
@@ -55,14 +60,14 @@ def login():
     print("for login:")
     print("Username: " + username + ", pswd: " + password)
     print("hashed password: " + generate_password_hash(password))
-    print(check_password_hash(password, user.password_hash))
     if user and user.check_password(password):
         session['user_id'] = user.id  # You can use Flask sessions or JWT tokens for maintaining session
+        print(user.id)
         return jsonify({'message': 'Logged in successfully', 'name': user.username}), 200
     return jsonify({'message': 'Invalid username or password'}), 401
 
 
-@auth_routes.route('/logout')
+@auth_routes.route('/logout', methods=["POST"])
 def logout():
     session.pop('user_id', None)
-    return jsonify({'message': 'Logged out successfully'})
+    return jsonify({'message': 'Logged out successfully'}), 200

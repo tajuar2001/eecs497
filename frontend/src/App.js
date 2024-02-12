@@ -4,7 +4,7 @@ import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
 import LandingPage from './components/landingPage'; // Import the LandingPage component
 import UserProfile from './components/userProfile';
-
+// contact -> landing -> landing succesful
 function App() {
     const [message, setMessage] = useState('');
     const [user, setUser] = useState(null);
@@ -27,7 +27,7 @@ function App() {
         setCurrentPage('login');
         setError('');
     };
-
+ 
     const navigate = (page) => {
         setCurrentPage(page);
         setError('');
