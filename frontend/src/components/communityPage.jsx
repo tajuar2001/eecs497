@@ -1,16 +1,15 @@
 import React from 'react';
-import './css/landingpage.css'; // Assuming you have a separate CSS file for LandingPage styles
 
-function communityPage({ onNavigate }) {
+function CommunityPage() {
   return (
-    <div className="community-page">
-      <h1>Community</h1>
-      <div className="navigation-buttons">
-        <button onClick={() => onNavigate('login')}>Login</button>
-        <button onClick={() => onNavigate('register')}>Register</button>
-      </div>
+    <div>
+      <h2>Community Page</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
+      <p>Fusce ac nunc tincidunt, viverra felis sit amet, commodo libero. Nullam vitae elit eu ex pharetra efficitur nec vel urna. Ut et arcu fermentum, efficitur ex et, tincidunt arcu.</p>
+      <img src="https://www.the-rampage.org/wp-content/uploads/2019/05/263480.jpg" alt="Community" style={{ maxHeight: '400px', width: 'auto' }} />
+      {/* Add more Lorem Ipsum content here */}
     </div>
   );
 }
 
-export default communityPage;
+export default CommunityPage;

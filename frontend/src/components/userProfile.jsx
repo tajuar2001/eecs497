@@ -1,9 +1,15 @@
 // In src/components/UserProfile.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import './css/userProfile.css'; // Make sure to create a corresponding CSS file for styling
 
+import AdvicePage from './advicePage';
+import CommunityPage from './communityPage';
+import ResourcesPage from './resourcesPage';
+
 function UserProfile({ user, onLogout }) {
+    const [activeTab, setActiveTab] = useState(null);
+
     const handleLogout = async (e) => {
         e.preventDefault();
         //setError(''); // Reset error message
@@ -20,15 +26,38 @@ function UserProfile({ user, onLogout }) {
             //setError(error.message);
         }
     };
+
+    const handleTabChange = (tab) => {
+        setActiveTab(tab === activeTab ? null : tab);
+    };
+
     return (
         <React.Fragment>
         <div className="user-profile">
             <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
-        <span className="profile-name">Hello, {user.name}</span>
+
+        <div className="profile-header">
+                <span className="profile-name">Hello, {user.name}</span>
+                <p>INSERT TEXT HERE</p>
+
+                <span className="profile-name">Personal Dashboard</span>
         <p>INSERT TEXT HERE</p>
-        <span className="profile-name">Personal Dashboard</span>
-        <p>INSERT TEXT HERE</p>
+        </div>
+
+        <div className="profile-sections">
+            <div className="section-buttons">
+                <button onClick={() => handleTabChange('advice')} className={activeTab === 'advice' ? 'active' : ''}>Advice</button>
+                <button onClick={() => handleTabChange('resources')} className={activeTab === 'resources' ? 'active' : ''}>Resources</button>
+                <button onClick={() => handleTabChange('community')} className={activeTab === 'community' ? 'active' : ''}>Community</button>
+            </div>
+            <div className="section-content">
+                {activeTab === 'advice' && <AdvicePage />}
+                {activeTab === 'resources' && <ResourcesPage />}
+                {activeTab === 'community' && <CommunityPage />}
+            </div>
+        </div>
+        
         </React.Fragment>
     );
 }

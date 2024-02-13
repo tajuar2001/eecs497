@@ -1,16 +1,15 @@
 import React from 'react';
-import './css/landingpage.css'; // Assuming you have a separate CSS file for LandingPage styles
 
-function advicePage({ onNavigate }) {
+function AdvicePage() {
   return (
-    <div className="advice-page">
-      <h1>Advice</h1>
-      <div className="navigation-buttons">
-        <button onClick={() => onNavigate('login')}>Login</button>
-        <button onClick={() => onNavigate('register')}>Register</button>
-      </div>
+    <div>
+      <h2>Advice Page</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
+      <p>Fusce ac nunc tincidunt, viverra felis sit amet, commodo libero. Nullam vitae elit eu ex pharetra efficitur nec vel urna. Ut et arcu fermentum, efficitur ex et, tincidunt arcu.</p>
+      <img src="https://a.storyblok.com/f/236180/4e30fcb36a/how-to-give-advice-in-english.jpg" alt="Advice" />
+      {/* Add more Lorem Ipsum content here */}
     </div>
   );
 }
 
-export default advicePage;
+export default AdvicePage;

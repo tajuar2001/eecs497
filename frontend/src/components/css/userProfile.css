@@ -27,3 +27,29 @@
 .logout-button:hover {
     background-color: #0056b3;
 }
+
+.section-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; /* Add margin for spacing */
+}
+
+.section-buttons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px; /* Increase width */
+    height: 50px; /* Increase height */
+    border-radius: 50%;
+    margin: 0 8px; /* Adjust margin between buttons */
+    padding: 0; /* Remove default padding */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.section-buttons button.active {
+    background-color: #0056b3;
+}

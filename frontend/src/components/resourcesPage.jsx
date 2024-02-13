@@ -1,16 +1,15 @@
 import React from 'react';
-import './css/landingpage.css'; // Assuming you have a separate CSS file for LandingPage styles
 
-function resourcesPage({ onNavigate }) {
+function ResourcesPage() {
   return (
-    <div className="resources-page">
-      <h1>Resources</h1>
-      <div className="navigation-buttons">
-        <button onClick={() => onNavigate('login')}>Login</button>
-        <button onClick={() => onNavigate('register')}>Register</button>
-      </div>
+    <div>
+      <h2>Resources Page</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
+      <p>Fusce ac nunc tincidunt, viverra felis sit amet, commodo libero. Nullam vitae elit eu ex pharetra efficitur nec vel urna. Ut et arcu fermentum, efficitur ex et, tincidunt arcu.</p>
+      <img src="https://www.tlpnyc.com/hubfs/Stock%20images/Resources%20written%20in%20search%20bar%20on%20virtual%20screen.jpeg" alt="Resources" style={{ maxHeight: '400px', width: 'auto' }} />
+      {/* Add more Lorem Ipsum content here */}
     </div>
   );
 }
 
-export default resourcesPage;
+export default ResourcesPage;

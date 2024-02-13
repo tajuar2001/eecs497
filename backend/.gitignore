@@ -1,7 +1,8 @@
 /node_modules
 /__pycache__
+/instance
 /advicePosts
 /communityData
 /communityRecSystem
 /userAuth/__pycache__
-User.db
+/User.db
