@@ -25,6 +25,7 @@ function RegisterForm({ onRegister, onBack }) { // Include onBack in the props
     };
 
     return (
+        <div className="log-reg-form-container">
         <form onSubmit={handleSubmit}>
             <div>
                 <input
@@ -48,6 +49,7 @@ function RegisterForm({ onRegister, onBack }) { // Include onBack in the props
             </div>
             {error && <p className="error">{error}</p>}
         </form>
+        </div>
     );
 }
 

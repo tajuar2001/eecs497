@@ -33,31 +33,39 @@ function UserProfile({ user, onLogout }) {
 
     return (
         <React.Fragment>
-        <div className="user-profile">
+        <div className="navigation-buttons">
+            <div className="user-greeting">Hi, {user.name}</div>
             <button onClick={handleLogout} className="logout-button">Logout</button>
+
         </div>
-
-        <div className="profile-header">
-                <span className="profile-name">Hello, {user.name}</span>
-                <p>INSERT TEXT HERE</p>
-
-                <span className="profile-name">Personal Dashboard</span>
-        <p>INSERT TEXT HERE</p>
-        </div>
-
-        <div className="profile-sections">
-            <div className="section-buttons">
+        <div className="navigation-center">
                 <button onClick={() => handleTabChange('advice')} className={activeTab === 'advice' ? 'active' : ''}>Advice</button>
                 <button onClick={() => handleTabChange('resources')} className={activeTab === 'resources' ? 'active' : ''}>Resources</button>
                 <button onClick={() => handleTabChange('community')} className={activeTab === 'community' ? 'active' : ''}>Community</button>
             </div>
+        <button onClick={() => setActiveTab(null)} className="home-button">
+                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/home-button-icon.png" alt="Home" />
+        </button>
+
+
+        <div className="profile-sections">
             <div className="section-content">
                 {activeTab === 'advice' && <AdvicePage />}
                 {activeTab === 'resources' && <ResourcesPage />}
                 {activeTab === 'community' && <CommunityPage />}
             </div>
         </div>
-        
+
+        {activeTab== null && (
+            <div className="profile-header">
+                <span className="profile-name">Hello, {user.name}</span>
+                <p>INSERT TEXT HERE</p>
+
+                <span className="profile-name">Personal Dashboard</span>
+                <p>INSERT TEXT HERE</p>
+            </div>
+        )}
+
         </React.Fragment>
     );
 }

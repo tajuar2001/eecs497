@@ -25,6 +25,7 @@ function LoginForm({ onLogin, onBack }) { // Added onBack prop
     };
 
     return (
+        <div className="log-reg-form-container">
         <form onSubmit={handleSubmit}>
             <div>
                 <input
@@ -48,6 +49,7 @@ function LoginForm({ onLogin, onBack }) { // Added onBack prop
             </div>
             {error && <p className="error">{error}</p>}
         </form>
+        </div>
     );
 }
 
