@@ -78,7 +78,9 @@
 .navigation-center {
     padding: 10px 20px;
     display: flex; /* Use flexbox */
-    top: 0px;
+    position: fixed; /* Position the button */
+    top: 0px; /* Distance from the top */    
+    z-index: 9999;
   justify-content: center; /* Center items horizontally */
   align-items: center; /* Center items vertically */
 }
