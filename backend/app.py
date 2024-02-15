@@ -6,6 +6,7 @@ from routes import main_routes
 from userAuth.auth import auth_routes, db
 from flask import request, render_template, jsonify, url_for, redirect, session
 from datetime import timedelta
+from adviceBackend.advicePosts import advice_posts_bp
 
 migrate = Migrate()
 
@@ -16,7 +17,8 @@ app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'  # Adjust as needed
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = "secretkey_set_later"
-app.permanent_session_lifetime = timedelta(minutes=5)
+#app.permanent_session_lifetime = timedelta(minutes=5)
+
 # Initialize extensions
 CORS(app, supports_credentials=True)
 db.init_app(app)
@@ -28,6 +30,7 @@ from userAuth.auth import auth_routes
 
 app.register_blueprint(main_routes)
 app.register_blueprint(auth_routes)
+app.register_blueprint(advice_posts_bp, url_prefix='/api')
 
 if __name__ == '__main__':
     with app.app_context():

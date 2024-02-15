@@ -4,6 +4,8 @@ import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
 import LandingPage from './components/landingPage';
 import UserProfile from './components/userProfile';
+import AdvicePosts from './components/AdvicePosts';
+import CreateAdvicePost from './components/CreateAdvicePost';
 
 function App() {
     const [message, setMessage] = useState('');
@@ -39,19 +41,19 @@ function App() {
         setError('');
     };
 
+    const handleNavigateToAdvicePosts = () => setCurrentPage('advicePosts');
+    const handleNavigateToCreateAdvicePost = () => setCurrentPage('createAdvicePost');
+
     return (
         <div className="App">
             <header className="App-header">
                 <div className="yellow-bar"></div>
                 {error && <p className="error-message">{error}</p>}
-                {user && <UserProfile user={user} onLogout={handleLogout} />}
+                {user && <UserProfile user={user} onLogout={handleLogout} adviceNav={handleNavigateToAdvicePosts} postCreateNav = {handleNavigateToCreateAdvicePost} onNavigate={navigate} />}
+                {user && currentPage === 'createAdvicePost' && <CreateAdvicePost />}
                 {!user && currentPage === 'landing' && <LandingPage onNavigate={navigate} />}
-                {!user && currentPage === 'login' && (
-                    <LoginForm onLogin={handleLogin} onBack={() => navigate('landing')} />
-                )}
-                {!user && currentPage === 'register' && (
-                    <RegisterForm onRegister={handleRegister} onBack={() => navigate('landing')} />
-                )}
+                {!user && currentPage === 'login' && <LoginForm onLogin={handleLogin} onBack={() => navigate('landing')} />}
+                {!user && currentPage === 'register' && <RegisterForm onRegister={handleRegister} onBack={() => navigate('landing')} />}
             </header>
         </div>
     );

@@ -1,5 +1,4 @@
 // In src/components/UserProfile.js
-
 import React, { useState } from 'react';
 import './css/userProfile.css'; // Make sure to create a corresponding CSS file for styling
 
@@ -7,8 +6,11 @@ import AdvicePage from './advicePage';
 import CommunityPage from './communityPage';
 import ResourcesPage from './resourcesPage';
 
-function UserProfile({ user, onLogout }) {
+import HelpPage from './helpPage';
+
+function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     const [activeTab, setActiveTab] = useState(null);
+    const [helpModalOpen, setHelpModalOpen] = useState(false);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -28,29 +30,37 @@ function UserProfile({ user, onLogout }) {
     };
 
     const handleTabChange = (tab) => {
+        onNavigate("xyz");
         setActiveTab(tab === activeTab ? null : tab);
+    };
+
+    const toggleHelpMode = () => {
+        setHelpModalOpen(!helpModalOpen);
     };
 
     return (
         <React.Fragment>
-        <div className="navigation-buttons">
-            <div className="user-greeting">Hi, {user.name}</div>
-            <button onClick={handleLogout} className="logout-button">Logout</button>
+        <div className="navigation-bar"> 
+            <div className="navigation-buttons">
+                <div className="user-greeting">Hi, {user.name}</div>
+                <div className="navigation-center">
+                    <button onClick={() => handleTabChange('advice')} className={activeTab === 'advice' ? 'active' : ''}>Advice</button>
+                    <button onClick={() => handleTabChange('resources')} className={activeTab === 'resources' ? 'active' : ''}>Resources</button>
+                    <button onClick={() => handleTabChange('community')} className={activeTab === 'community' ? 'active' : ''}>Community</button>
+                </div>
+                <button onClick={handleLogout} className="logout-button">Logout</button>
 
-        </div>
-        <div className="navigation-center">
-                <button onClick={() => handleTabChange('advice')} className={activeTab === 'advice' ? 'active' : ''}>Advice</button>
-                <button onClick={() => handleTabChange('resources')} className={activeTab === 'resources' ? 'active' : ''}>Resources</button>
-                <button onClick={() => handleTabChange('community')} className={activeTab === 'community' ? 'active' : ''}>Community</button>
             </div>
-        <button onClick={() => setActiveTab(null)} className="home-button">
-                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/home-button-icon.png" alt="Home" />
-        </button>
+            
+            <button onClick={() => handleTabChange(null)} className="home-button">
+                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/home-button-icon.png" alt="Home" />
+            </button>
+        </div>
 
 
         <div className="profile-sections">
             <div className="section-content">
-                {activeTab === 'advice' && <AdvicePage />}
+                {activeTab === 'advice' && <AdvicePage navAdvicePosts = {adviceNav} navCreatePosts = {postCreateNav}  />}
                 {activeTab === 'resources' && <ResourcesPage />}
                 {activeTab === 'community' && <CommunityPage />}
             </div>
@@ -58,13 +68,15 @@ function UserProfile({ user, onLogout }) {
 
         {activeTab== null && (
             <div className="profile-header">
-                <span className="profile-name">Hello, {user.name}</span>
-                <p>INSERT TEXT HERE</p>
-
                 <span className="profile-name">Personal Dashboard</span>
                 <p>INSERT TEXT HERE</p>
+
+                <button className="help-button" onClick={toggleHelpMode}>?</button>
+                {helpModalOpen && <HelpPage onClose={toggleHelpMode} />}
             </div>
         )}
+            
+
 
         </React.Fragment>
     );

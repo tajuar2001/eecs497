@@ -6,3 +6,6 @@
 /communityRecSystem
 /userAuth/__pycache__
 /User.db
+/migrations
+/*.db
+/adviceBackend/__pycache__
