@@ -1,2 +1,1 @@
-# eecs497
-for our uplcoming 497 project
+# Working on a web app for new parents
