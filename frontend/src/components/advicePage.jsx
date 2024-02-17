@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './css/advicePage.css'; // Assuming you have a separate CSS file for AdvicePage styles
 import axios from 'axios';
+import CreateAdvicePost from './CreateAdvicePost';
 
-function AdvicePage({ navAdvicePosts, navCreatePosts }) {
+function AdvicePage() {
   const [posts, setPosts] = useState([]);
+  const [createPosts, setCreatePosts] = useState(false);
+
+  const toggleCreatePosts = () => {
+    setCreatePosts(!createPosts);
+}
 
     useEffect(() => {
         axios.get('/api/advice')
@@ -20,7 +26,8 @@ function AdvicePage({ navAdvicePosts, navCreatePosts }) {
                 </div>
             ))}
         </div>
-      <button onClick={navCreatePosts}>Create Advice Post</button>
+      <button onClick={toggleCreatePosts}>Create Advice Post</button>
+      {createPosts && <CreateAdvicePost></CreateAdvicePost>}
       {/* Consider adding more sections with advice on different topics relevant to new parents */}
     </div>
   );

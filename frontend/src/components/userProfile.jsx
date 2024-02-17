@@ -1,5 +1,5 @@
 // In src/components/UserProfile.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './css/userProfile.css'; // Make sure to create a corresponding CSS file for styling
 
 import AdvicePage from './advicePage';
@@ -7,10 +7,17 @@ import CommunityPage from './communityPage';
 import ResourcesPage from './resourcesPage';
 
 import HelpPage from './helpPage';
+import CreateAdvicePost from './CreateAdvicePost';
 
 function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     const [activeTab, setActiveTab] = useState(null);
     const [helpModalOpen, setHelpModalOpen] = useState(false);
+    const [showCreateAdvicePosts, setCreateAdvicePosts] = useState(false);
+    
+    useEffect(() => {
+        // Store the current page and user in localStorage whenever they change
+        localStorage.setItem('activeTab', activeTab);
+    }, [activeTab]);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -23,6 +30,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Failed to login');
+            handleTabChange(null);
             onLogout(data);
         } catch (error) {
             //setError(error.message);
@@ -30,13 +38,18 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     };
 
     const handleTabChange = (tab) => {
-        onNavigate("xyz");
         setActiveTab(tab === activeTab ? null : tab);
+        setCreateAdvicePosts(false);
+
     };
 
     const toggleHelpMode = () => {
         setHelpModalOpen(!helpModalOpen);
     };
+
+    const toggleCreatePosts = () => {
+        setCreateAdvicePosts(!showCreateAdvicePosts);
+    }
 
     return (
         <React.Fragment>
@@ -60,7 +73,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
 
         <div className="profile-sections">
             <div className="section-content">
-                {activeTab === 'advice' && <AdvicePage navAdvicePosts = {adviceNav} navCreatePosts = {postCreateNav}  />}
+                {activeTab === 'advice' && <AdvicePage/>}
                 {activeTab === 'resources' && <ResourcesPage />}
                 {activeTab === 'community' && <CommunityPage />}
             </div>

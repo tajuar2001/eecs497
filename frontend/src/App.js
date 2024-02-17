@@ -50,7 +50,6 @@ function App() {
                 <div className="yellow-bar"></div>
                 {error && <p className="error-message">{error}</p>}
                 {user && <UserProfile user={user} onLogout={handleLogout} adviceNav={handleNavigateToAdvicePosts} postCreateNav = {handleNavigateToCreateAdvicePost} onNavigate={navigate} />}
-                {user && currentPage === 'createAdvicePost' && <CreateAdvicePost />}
                 {!user && currentPage === 'landing' && <LandingPage onNavigate={navigate} />}
                 {!user && currentPage === 'login' && <LoginForm onLogin={handleLogin} onBack={() => navigate('landing')} />}
                 {!user && currentPage === 'register' && <RegisterForm onRegister={handleRegister} onBack={() => navigate('landing')} />}
