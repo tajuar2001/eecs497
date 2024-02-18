@@ -118,4 +118,8 @@
     justify-content: center;
     display: flex;
     z-index: 9999;
+
+    background-color: #FFA500;
+    border: 2px solid #cc8400;
+    border-radius: 5px;
 }
