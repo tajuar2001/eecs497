@@ -38,7 +38,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     };
 
     const handleTabChange = (tab) => {
-        setActiveTab(tab === activeTab ? null : tab);
+        setActiveTab(tab === activeTab ? activeTab : tab);
         setCreateAdvicePosts(false);
 
     };

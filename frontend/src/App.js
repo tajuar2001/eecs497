@@ -4,8 +4,6 @@ import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
 import LandingPage from './components/landingPage';
 import UserProfile from './components/userProfile';
-import AdvicePosts from './components/AdvicePosts';
-import CreateAdvicePost from './components/CreateAdvicePost';
 
 function App() {
     const [message, setMessage] = useState('');
