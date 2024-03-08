@@ -16,7 +16,7 @@ function App() {
         localStorage.setItem('currentPage', currentPage);
         localStorage.setItem('user', JSON.stringify(user));
     }, [currentPage, user]);
-
+    
     const handleLogin = (userData) => {
         setUser(userData);
         setCurrentPage('landing');

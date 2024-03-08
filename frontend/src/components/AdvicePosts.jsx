@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './css/advicePage.css';
 
+
+
 function AdvicePosts() {
     const [posts, setPosts] = useState([]);
-
-    useEffect(() => {
+    const getposts = () => {
         axios.get('/api/advice')
             .then(response => setPosts(response.data))
             .catch(error => console.error('There was an error fetching the advice posts:', error));
+    };
+    useEffect(() => {
+        getposts();
     }, []);
 
     return (

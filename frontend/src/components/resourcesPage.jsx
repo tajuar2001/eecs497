@@ -1,13 +1,32 @@
 import React from 'react';
+import './css/resourcesPage.css'; // Make sure your CSS file is named correctly
 
 function ResourcesPage() {
+  const resources = [
+    { name: 'Budgeting', icon: 'budget-icon', color: 'red' },
+    { name: 'Living Expense', icon: 'living-expense-icon', color: 'blue' },
+    { name: 'Education', icon: 'education-icon', color: 'green' },
+    { name: 'Food', icon: 'food-icon', color: 'yellow' },
+    { name: 'Parks', icon: 'parks-icon', color: 'teal' },
+    { name: 'Shopping', icon: 'shopping-icon', color: 'lightblue' },
+    { name: 'Daycare', icon: 'daycare-icon', color: 'orange' },
+    { name: 'Healthcare', icon: 'healthcare-icon', color: 'purple' },
+    { name: 'College Fund', icon: 'college-fund-icon', color: 'violet' },
+    { name: 'Etc', icon: 'etc-icon', color: 'grey' }
+  ];
+
   return (
-    <div>
-      <h2>Resources Page</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-      <p>Fusce ac nunc tincidunt, viverra felis sit amet, commodo libero. Nullam vitae elit eu ex pharetra efficitur nec vel urna. Ut et arcu fermentum, efficitur ex et, tincidunt arcu.</p>
-      <img src="https://www.tlpnyc.com/hubfs/Stock%20images/Resources%20written%20in%20search%20bar%20on%20virtual%20screen.jpeg" alt="Resources" style={{ maxHeight: '400px', width: 'auto' }} />
-      {/* Add more Lorem Ipsum content here */}
+    <div className="resources-container">
+      <h2>Resources</h2>
+      <div className="resources-grid">
+        {resources.map((resource, index) => (
+          <div key={index} className="resource-card" style={{ backgroundColor: resource.color }}>
+            {/* Replace `icon` with actual img tag or component if you have one */}
+            <div className="resource-icon">{resource.icon}</div> 
+            <div className="resource-name">{resource.name}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

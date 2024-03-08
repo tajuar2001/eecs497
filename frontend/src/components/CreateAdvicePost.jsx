@@ -3,7 +3,7 @@ import axios from 'axios';
 import './css/advicePage.css';
 // Import your AuthContext or similar here
 
-function CreateAdvicePost() {
+function CreateAdvicePost({refreshPage}) {
     const [question, setQuestion] = useState('');
     // Use AuthContext to check if the user is logged in
     // const { isLoggedIn } = useContext(AuthContext);
@@ -20,6 +20,7 @@ function CreateAdvicePost() {
                 // Handle success
                 alert('Advice posted successfully');
                 setQuestion('');
+                refreshPage();
             })
             .catch(error => {
                 // Handle error
