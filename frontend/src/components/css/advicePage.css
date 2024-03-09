@@ -5,3 +5,8 @@
 .advice-page {
     text-align: center;
 }
+
+.advice-posts {
+    max-height: 500px; /* Adjust this value as needed */
+    overflow-y: auto; /* This will add a scrollbar if the content exceeds the max-height */
+}

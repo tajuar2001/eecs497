@@ -16,6 +16,11 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     
     useEffect(() => {
         // Store the current page and user in localStorage whenever they change
+        setActiveTab(localStorage.getItem('activeTab'));
+    }, []);
+
+    useEffect(() => {
+        // Store the current page and user in localStorage whenever they change
 
         localStorage.setItem('activeTab', activeTab);
     }, [activeTab]);

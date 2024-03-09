@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import './css/communityPage.css'; // Assuming you have a separate CSS file for CommunityPage styles
+import CreateCommunityPost from './createCommunityPost.jsx';
+
 
 function CommunityPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [createPostMenuOpen, setCreatePostMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const toggleCreatePostMenu = () => {
+    setCreatePostMenuOpen(!createPostMenuOpen);
   };
 
   return (
@@ -54,7 +61,8 @@ function CommunityPage() {
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
         {/* Add more Lorem Ipsum content here */}
       </div>
-      <button className="create-post">Create Post</button>
+      <button className="create-post" onClick={toggleCreatePostMenu}>Create Post</button>
+      {createPostMenuOpen && <CreateCommunityPost onClose={toggleCreatePostMenu} />}
     </div>
   );
 }

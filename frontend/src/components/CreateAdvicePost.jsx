@@ -34,7 +34,7 @@ function CreateAdvicePost({refreshPage}) {
         <form onSubmit={handleSubmit}>
             <label htmlFor="question">Your Question:</label>
             <textarea id="question" value={question} onChange={e => setQuestion(e.target.value)} required></textarea>
-            <button type="submit">Post Advice</button>
+            <button type="submit">Post Question</button>
         </form>
         </div>
     );

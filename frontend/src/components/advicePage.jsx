@@ -1,38 +1,28 @@
+// AdvicePage.jsx
 import React, { useState, useEffect } from 'react';
-import './css/advicePage.css'; // Assuming you have a separate CSS file for AdvicePage styles
 import axios from 'axios';
+import PostReply from './PostReply'; // Make sure this path matches your file structure
+import './css/advicePage.css'; // Assuming you have a separate CSS file for AdvicePage styles
 import CreateAdvicePost from './CreateAdvicePost';
-import AdvicePosts from './AdvicePosts'
+import AdvicePosts from './AdvicePosts';
+
 function AdvicePage() {
   const [posts, setPosts] = useState([]);
-  const [createPosts, setCreatePosts] = useState(false);
 
+  const fetchPosts = () => {
+    axios.get('/api/advice')
+        .then(response => setPosts(response.data))
+        .catch(error => console.error('There was an error fetching the advice posts:', error));
+  };
 
-  const toggleCreatePosts = () => {
-    setCreatePosts(!createPosts);
-}
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
-const getposts = () => {
-  axios.get('/api/advice')
-      .then(response => setPosts(response.data))
-      .catch(error => console.error('There was an error fetching the advice posts:', error));
-};
-useEffect(() => {
-  getposts();
-}, []);
   return (
     <div className="advice-page">
       <h1>Welcome to New Parents' Advice Corner</h1>
-      <div classname="advice-posts">
-            {posts.map(post => (
-                <div key={post.id} onClick={() => {/* navigate to post detail */}}>
-                    <p>{post.question}</p>
-                </div>
-            ))}
-        </div>
-      <button onClick={toggleCreatePosts}>Create Advice Post</button>
-      {createPosts && <CreateAdvicePost refreshPage={getposts}></CreateAdvicePost>}
-      {/* Consider adding more sections with advice on different topics relevant to new parents */}
+      <AdvicePosts></AdvicePosts>
     </div>
   );
 }
