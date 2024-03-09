@@ -23,10 +23,10 @@ function AdvicePosts() {
         <div className="advice-posts">
         {posts.map((post) => (
           <div key={post.id} className="advice-post">
-            <p><strong>Question: </strong>{post.question}</p>
+            <p><strong>Question by {post.author}: </strong>{post.question}</p>
             {post.replies && post.replies.map(reply => (
               <div key={reply.id} className="reply">
-                <p><strong>Reply: </strong>{reply.text}</p>
+                <p><strong>Reply by {reply.author}: </strong>{reply.text}</p>
               </div>
             ))}
             <PostReply postId={post.id} refreshPage={fetchPosts} />

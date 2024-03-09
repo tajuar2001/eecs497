@@ -21,7 +21,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
 
     useEffect(() => {
         // Store the current page and user in localStorage whenever they change
-
+        
         localStorage.setItem('activeTab', activeTab);
     }, [activeTab]);
 
@@ -44,7 +44,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     };
 
     const handleTabChange = (tab) => {
-        setActiveTab(tab === activeTab ? activeTab : tab);
+        setActiveTab(tab);
         setCreateAdvicePosts(false);
 
     };
@@ -71,7 +71,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
 
             </div>
             
-            <button onClick={() => handleTabChange(null)} className="home-button">
+            <button onClick={() => handleTabChange("null")} className="home-button">
                         <img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/home-button-icon.png" alt="Home" />
             </button>
         </div>
@@ -85,10 +85,10 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
             </div>
         </div>
 
-        {activeTab== null && (
+        {activeTab== "null" && (
             <div className="profile-header">
                 <span className="profile-name">Personal Dashboard</span>
-                <p>INSERT TEXT HERE</p>
+                <p>Hello, {user.name}</p>
 
                 <button className="help-button" onClick={toggleHelpMode}>?</button>
                 {helpModalOpen && <HelpPage onClose={toggleHelpMode} />}

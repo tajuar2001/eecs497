@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint, request, jsonify, session
 from userAuth.auth import db
+from userAuth.auth import User
 
 # Existing models
 class AdvicePost(db.Model):
@@ -45,9 +46,10 @@ def get_advice_posts():
     posts = AdvicePost.query.all()
     all_posts = []
     for post in posts:
-        post_data = {'id': post.id, 'question': post.question, 'user_id': post.user_id, 'replies': []}
+        author = User.query.get(post.user_id).username
+        post_data = {'id': post.id, 'question': post.question, 'user_id': post.user_id, 'author':author, 'replies': []}
         for reply in post.replies:
-            post_data['replies'].append({'id': reply.id, 'text': reply.text, 'user_id': reply.user_id})
+            post_data['replies'].append({'id': reply.id, 'text': reply.text, 'user_id': reply.user_id, 'author':author})
         all_posts.append(post_data)
     return jsonify(all_posts)
 

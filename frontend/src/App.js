@@ -53,6 +53,7 @@ function App() {
                 {!user && currentPage === 'register' && <RegisterForm onRegister={handleRegister} onBack={() => navigate('landing')} />}
             </header>
         </div>
+       
     );
 }
 

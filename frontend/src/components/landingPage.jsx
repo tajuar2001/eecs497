@@ -1,12 +1,16 @@
-// In src/components/LandingPage.js
-
 import React from 'react';
-import './css/landingpage.css'; // Assuming you have a separate CSS file for LandingPage styles
+import './css/landingpage.css'; // Ensure this path is correct
 
 function LandingPage({ onNavigate }) {
   return (
     <div className="landing-page">
-      <h1>Welcome to Our Website</h1>
+      <div className="title-box">
+        <h1>Welcome to newLeaf</h1>
+      </div>
+      <p className="intro-text">
+        Discover a supportive community, get expert advice, and access resources tailored for new parents.
+        Join ParentHub today to make your parenting journey easier and more enjoyable.
+      </p>
       <div className="navigation-buttons">
         <button onClick={() => onNavigate('login')}>Login</button>
         <button onClick={() => onNavigate('register')}>Register</button>
