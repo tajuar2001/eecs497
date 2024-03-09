@@ -23,17 +23,15 @@ class User(db.Model):
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
-        #self.password_hash = password
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-        #return (password == self.password_hash)
 
 @auth_routes.route('/register', methods=['POST'])
 def register():
     username = request.json['username']
     password = request.json['password']
-    # Check if user exists
+
     print("for register:")
     print("Username: " + username + ", pswd: " + password)
     if User.query.filter_by(username=username).first():

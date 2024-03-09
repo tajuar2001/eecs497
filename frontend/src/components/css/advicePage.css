@@ -1,5 +1,5 @@
 .advice-page h1 {
-    font-size: 2rem; /* This will make the font size of all h1 tags inside .advice-page 2rem */
+    font-size: 2rem; 
 }
 
 .advice-page {
@@ -7,6 +7,19 @@
 }
 
 .advice-posts {
-    max-height: 500px; /* Adjust this value as needed */
-    overflow-y: auto; /* This will add a scrollbar if the content exceeds the max-height */
+    max-height: 500px; 
+    overflow-y: auto; 
 }
+
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .delete-btn:hover {
+    background-color: darkred;
+  }

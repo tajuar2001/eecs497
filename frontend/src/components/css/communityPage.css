@@ -5,9 +5,9 @@
   
   .buttons {
     position: fixed;
-    top: 7%; /* Adjust as needed */
-    left: 50%; /* Center the buttons horizontally */
-    transform: translateX(-50%); /* Center the buttons horizontally */
+    top: 7%; 
+    left: 50%; 
+    transform: translateX(-50%); 
     display: flex;
     justify-content: center;
     margin-top: 15px;

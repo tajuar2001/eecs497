@@ -2,27 +2,27 @@ from flask import Flask, Blueprint, request, jsonify, session
 from userAuth.auth import db
 from userAuth.auth import User
 
-# Existing models
+# Models
 class AdvicePost(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     question = db.Column(db.String(1024), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='advice_post', lazy=True)
     replies = db.relationship('Reply', backref='advice_post', lazy=True)
 
 class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     content = db.Column(db.String(1024), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     advice_post_id = db.Column(db.Integer, db.ForeignKey('advice_post.id'), nullable=False)
 
-# New Reply model
+# Reply model
 class Reply(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String(1024), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     advice_post_id = db.Column(db.Integer, db.ForeignKey('advice_post.id'), nullable=False)
-# Blueprint for advice posts
+
 advice_posts_bp = Blueprint('advice_posts', __name__)
 
 @advice_posts_bp.route('/advice', methods=['POST'])
@@ -49,7 +49,8 @@ def get_advice_posts():
         author = User.query.get(post.user_id).username
         post_data = {'id': post.id, 'question': post.question, 'user_id': post.user_id, 'author':author, 'replies': []}
         for reply in post.replies:
-            post_data['replies'].append({'id': reply.id, 'text': reply.text, 'user_id': reply.user_id, 'author':author})
+            reply_author = User.query.get(reply.user_id).username  # Get the username of the reply's author
+            post_data['replies'].append({'id': reply.id, 'text': reply.text, 'user_id': reply.user_id, 'author':reply_author})
         all_posts.append(post_data)
     return jsonify(all_posts)
 
@@ -60,3 +61,27 @@ def post_comment(post_id):
     db.session.add(new_comment)
     db.session.commit()
     return jsonify({'message': 'Comment added', 'post_id': post_id, 'comment_id': new_comment.id}), 201
+
+@advice_posts_bp.route('/advice/<int:post_id>', methods=['DELETE'])
+def delete_advice_post(post_id):
+    post = AdvicePost.query.get(post_id)
+    print(post)
+    if not post:
+        return jsonify({"message": "Post not found"}), 404
+
+    for reply in post.replies:
+        db.session.delete(reply)
+        
+    db.session.delete(post)
+    db.session.commit()
+    return jsonify({"message": "Post deleted"}), 200
+
+@advice_posts_bp.route('/advice/<int:post_id>/reply/<int:reply_id>', methods=['DELETE'])
+def delete_reply(post_id, reply_id):
+    reply = Reply.query.filter_by(id=reply_id, advice_post_id=post_id).first()
+    if not reply:
+        return jsonify({"message": "Reply not found"}), 404
+    
+    db.session.delete(reply)
+    db.session.commit()
+    return jsonify({"message": "Reply deleted"}), 200

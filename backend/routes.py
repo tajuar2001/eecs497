@@ -10,6 +10,6 @@ def hello():
 
 @main_routes.route('/')
 def serve():
-    return send_from_directory('../frontend/build', 'index.html')  # Adjust path if necessary
+    return send_from_directory('../frontend/build', 'index.html')  
 
 

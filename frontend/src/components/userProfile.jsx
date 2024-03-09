@@ -3,15 +3,17 @@ import React, { useState, useEffect } from 'react';
 import './css/userProfile.css'; // Make sure to create a corresponding CSS file for styling
 
 import AdvicePage from './advicePage';
+import AdvicePosts from './AdvicePosts';
+
 import CommunityPage from './communityPage';
 import ResourcesPage from './resourcesPage';
 
-import HelpPage from './helpPage';
+import PersonalDashboardPage from './personalDashboard';
+
 import CreateAdvicePost from './CreateAdvicePost';
 
 function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     const [activeTab, setActiveTab] = useState(null);
-    const [helpModalOpen, setHelpModalOpen] = useState(false);
     const [showCreateAdvicePosts, setCreateAdvicePosts] = useState(false);
     
     useEffect(() => {
@@ -19,11 +21,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
         setActiveTab(localStorage.getItem('activeTab'));
     }, []);
 
-    useEffect(() => {
-        // Store the current page and user in localStorage whenever they change
-        
-        localStorage.setItem('activeTab', activeTab);
-    }, [activeTab]);
+    
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -44,13 +42,10 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     };
 
     const handleTabChange = (tab) => {
+        localStorage.setItem('activeTab', tab);
         setActiveTab(tab);
         setCreateAdvicePosts(false);
 
-    };
-
-    const toggleHelpMode = () => {
-        setHelpModalOpen(!helpModalOpen);
     };
 
     const toggleCreatePosts = () => {
@@ -79,21 +74,13 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
 
         <div className="profile-sections">
             <div className="section-content">
-                {activeTab === 'advice' && <AdvicePage/>}
+                {activeTab === 'advice' && <AdvicePosts user={user}/>}
                 {activeTab === 'resources' && <ResourcesPage />}
-                {activeTab === 'community' && <CommunityPage />}
+                {activeTab === 'community' && <CommunityPage/>}
             </div>
         </div>
 
-        {activeTab== "null" && (
-            <div className="profile-header">
-                <span className="profile-name">Personal Dashboard</span>
-                <p>Hello, {user.name}</p>
-
-                <button className="help-button" onClick={toggleHelpMode}>?</button>
-                {helpModalOpen && <HelpPage onClose={toggleHelpMode} />}
-            </div>
-        )}
+        {activeTab== "null" && <PersonalDashboardPage user={user}/>}
             
 
 
