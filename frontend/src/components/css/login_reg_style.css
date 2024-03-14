@@ -40,21 +40,21 @@ button:hover {
 
 .log-reg-form-container {
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a box shadow for border effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 20px;
-    width: 250px; /* Adjust the width as needed */
+    width: 250px; 
     margin: 0 auto; 
 }
 
 .form-actions {
     display: flex;
-    justify-content: center; /* Change this line */
+    justify-content: center; 
     width: 100%;
     max-width: 300px;
 }
 
 .error {
-    color: red; /* Change text color to red */
-    font-size: 0.8rem; /* Adjust font size to make it smaller */
-    margin-top: 5px; /* Add some space above the error message */
+    color: red; 
+    font-size: 0.8rem; 
+    margin-top: 5px; 
 }

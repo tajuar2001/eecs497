@@ -1,11 +1,11 @@
 import React from 'react';
-import './css/livingExpense.css'; // Ensure the path is correct and renamed accordingly
+import './css/livingExpense.css'; 
 
 function LivingExpense({ onBackClick }) {
   return (
     <div className="living-expense-page-container">
       <h2>Living Expenses Guide</h2>
-      {/* Your LivingExpense content goes here */}
+      {/* content here */}
       <button className="back-button" onClick={onBackClick}></button>
     </div>
   );

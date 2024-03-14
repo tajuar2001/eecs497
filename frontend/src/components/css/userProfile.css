@@ -1,4 +1,3 @@
-/* In src/components/UserProfile.css */
 /* USER PROFILE */
 .profile-name {
     text-align: left;
@@ -20,26 +19,26 @@
 
 /* HOME BUTTON */
 .home-button {
-    padding: 5px 10px; /* Adjust padding for smaller size */
-    background-color: #007bff; /* Purple background */
+    padding: 5px 10px; 
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
     z-index: 9999;
-    position: fixed; /* Position the button */
-    top: 0px; /* Distance from the top */
-    left: 10px; /* Distance from the left */
+    position: fixed; 
+    top: 0px; 
+    left: 10px; 
 }
 
 .home-button img {
-    width: 25px; /* Adjust the width */
-    height: auto; /* Maintain aspect ratio */
+    width: 25px;
+    height: auto;
 }
 
 .home-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3; 
 }
 
 /* HELP BUTTON */
@@ -57,7 +56,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 1000; /* Ensure the button stays on top of other content */
+    z-index: 1000; 
 }
 
 .help-page {
@@ -66,11 +65,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2000; /* Ensure the modal is above other content */
+    z-index: 2000; 
 }
 
 .help-content {
@@ -86,13 +85,13 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px; /* Adjust the height as needed */
+    height: 50px; 
     background-color: #FFA500;
-    z-index: 9999; /* Ensures the bar stays on top of other elements */
-    display: flex; /* Use flexbox */
-    justify-content: right; /* Align items to the right */
-    align-items: center; /* Center items vertically */
-    padding-right: 10px; /* Add some padding to the right */
+    z-index: 9999; 
+    display: flex; 
+    justify-content: right;
+    align-items: center; 
+    padding-right: 10px; 
 }
 
 .navigation-bar .logout-button {
@@ -114,7 +113,7 @@
 
 .navigation-center {
     align-items: center;
-    top: 3px; /* Distance from the top */
+    top: 3px; 
     justify-content: center;
     display: flex;
     z-index: 9999;

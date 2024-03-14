@@ -1,11 +1,11 @@
 import React from 'react';
-import './css/educationPage.css'; // Ensure the path is correct
+import './css/educationPage.css'; 
 
 function EducationPage({ onBackClick }) {
   return (
     <div className="education-page-container">
       <h2>Education Resources</h2>
-      {/* Your EducationPage content goes here */}
+      {/* content here */}
       <button className="back-button" onClick={onBackClick}></button>
     </div>
   );

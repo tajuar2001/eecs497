@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f5f5f5; /* Soft background color */
+    background-color: #f5f5f5; 
 }
 
 .user-info {
@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: start;
     width: 100%;
-    max-width: 600px; /* Adjust based on preference */
+    max-width: 600px; 
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
@@ -21,11 +21,11 @@
 }
 
 .user-picture {
-    width: 80px; /* Adjust size as needed */
+    width: 80px; 
     height: 80px;
-    border-radius: 50%; /* Circle shape */
+    border-radius: 50%;
     margin-right: 20px;
-    object-fit: cover; /* Ensure the picture is well-fitted */
+    object-fit: cover;
 }
 
 .user-details {
@@ -35,27 +35,27 @@
 .profile-name {
     margin: 0;
     font-size: 1.5rem;
-    color: #333; /* Dark grey for text */
+    color: #333; 
 }
 
 .date {
     font-size: 1rem;
-    color: #666; /* Lighter grey for the date */
+    color: #666;
 }
 
 .help-button {
     padding: 10px 15px;
-    background-color: #007bff; /* Bootstrap primary blue */
+    background-color: #007bff; 
     color: white;
     border: none;
-    border-radius: 50%; /* Circular button */
+    border-radius: 50%; 
     cursor: pointer;
     font-size: 1.2rem;
-    position: fixed; /* Position it on the page */
+    position: fixed; 
     bottom: 20px;
     right: 20px;
 }
 
 .help-button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3; 
 }

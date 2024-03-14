@@ -1,6 +1,6 @@
 // In src/components/UserProfile.js
 import React, { useState, useEffect } from 'react';
-import './css/userProfile.css'; // Make sure to create a corresponding CSS file for styling
+import './css/userProfile.css'; 
 
 import AdvicePosts from './AdvicePosts';
 
@@ -24,7 +24,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
 
     const handleLogout = async (e) => {
         e.preventDefault();
-        //setError(''); // Reset error message
+
         try {
             const response = await fetch('/logout', {
                 method: 'POST',

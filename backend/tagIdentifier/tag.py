@@ -1,63 +1,57 @@
-from flask import Flask, request, jsonify, Blueprint
+from flask import Flask, request, jsonify, Blueprint, session
 from flask_sqlalchemy import SQLAlchemy
 from gensim.models import Word2Vec, KeyedVectors
 import numpy as np
 from userAuth.auth import db, User
-from adviceBackend.advicePosts import AdvicePost
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 tag_bp = Blueprint('tags', __name__)
 
-# Assuming other model definitions (User, CommunityPost, Tag, etc.) remain the same
 class Tag(db.Model):
+    __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-# Load or initialize your Word2Vec model
-# For demonstration, we'll pretend to load a pre-trained model
-# Replace this with the path to your actual model
-word2vec_model_path = 'path/to/your/model'
-try:
-    model = KeyedVectors.load(word2vec_model_path, mmap='r')
-except FileNotFoundError:
-    # Placeholder: Initialize a new model if necessary or handle the error
-    # This requires actual tag data to train
-    model = Word2Vec(sentences=[["python", "flask"], ["machine", "learning"]], vector_size=100, window=5, min_count=1, workers=4)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-def get_post_embedding(post):
-    """Generate a post's embedding by averaging its tag embeddings."""
-    tag_embeddings = [model.wv[tag.name] for tag in post.tags if tag.name in model.wv]
-    if tag_embeddings:
-        post_embedding = np.mean(tag_embeddings, axis=0)
-    else:
-        post_embedding = np.zeros(model.vector_size)  # Fallback to zero vector if no tags match
-    return post_embedding
+    user = db.relationship('User', backref=db.backref('tags', lazy=True))
 
-def cosine_similarity(vec_a, vec_b):
-    """Calculate the cosine similarity between two vectors."""
-    dot_product = np.dot(vec_a, vec_b)
-    norm_a = np.linalg.norm(vec_a)
-    norm_b = np.linalg.norm(vec_b)
-    return dot_product / (norm_a * norm_b) if norm_a and norm_b else 0
+tfidf_vectorizer = TfidfVectorizer()
 
-def find_k_nearest_posts(post_id, k=5):
-    target_post = CommunityPost.query.get(post_id)  # Changed to CommunityPost
-    if not target_post:
-        return []
+def generate_tags_from_text(text, top_n=5):
+    corpus = [text]
+    vectorizer = TfidfVectorizer(stop_words='english', use_idf=True, lowercase=True, norm='l2')
+    tfidf_matrix = vectorizer.fit_transform(corpus)
+    feature_names = vectorizer.get_feature_names_out()
+    tfidf_scores = tfidf_matrix.toarray()[0]  # Convert sparse matrix to dense and get the first document scores
 
-    all_posts = CommunityPost.query.filter(CommunityPost.id != post_id).all()  # Changed to CommunityPost
-    target_embedding = get_post_embedding(target_post)
+    sorted_indices = np.argsort(tfidf_scores)[::-1]
+    top_features = [(feature_names[i], tfidf_scores[i]) for i in sorted_indices[:top_n]]
 
-    similarities = []
-    for post in all_posts:
-        post_embedding = get_post_embedding(post)
-        similarity = cosine_similarity(target_embedding, post_embedding)
-        similarities.append((post, similarity))
+    return [word for word, score in top_features]
 
-    similarities.sort(key=lambda x: x[1], reverse=True)
-    return [post[0] for post in similarities[:k]]
+def add_tag_to_user(text):
+    tags = generate_tags_from_text(text)
+    for tag_name in tags:
+        # Check if the user already has this tag
+        tag = Tag.query.filter_by(name=tag_name, user_id=session["user_id"]).first()
+        if not tag:
+            # Create a new tag and associate it with the user
+            tag = Tag(name=tag_name, user_id=session["user_id"])
+            print(tag_name)
+            db.session.add(tag)
+            db.session.commit()
 
 @tag_bp.route('/recommendations/<int:post_id>', methods=['GET'])
 def get_recommendations(post_id):
-    k = request.args.get('k', default=5, type=int)
-    similar_posts = find_k_nearest_posts(post_id, k)
-    results = [{'id': post.id, 'question': post.question, 'tags': [tag.name for tag in post.tags]} for post in similar_posts]
-    return jsonify(results)
+    k = request.args.get('k')
+    return jsonify(k)
+
+@tag_bp.route('/user/tags', methods=['GET'])
+def get_user_tags():
+
+    user_id = session["user_id"]
+    # Get tags associated with the user
+    tags = db.session.query(Tag).filter(Tag.user_id == user_id).all()
+    tag_list = [{'id': tag.id, 'name': tag.name} for tag in tags]
+    return jsonify(tag_list), 200
+

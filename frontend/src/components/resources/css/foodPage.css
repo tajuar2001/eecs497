@@ -5,14 +5,14 @@
 
   .back-button {
     position: absolute;
-    bottom: 20px; /* spacing from the bottom */
-    left: 20px;   /* spacing from the left */
-    width: 50px;  /* diameter of the button */
-    height: 50px; /* diameter of the button */
-    border: none; /* removes the border */
-    border-radius: 50%; /* makes it a circle */
-    background-color: #4caf50; /* background color */
-    color: white; /* text color */
+    bottom: 20px; 
+    left: 20px;  
+    width: 50px;  
+    height: 50px; 
+    border: none; 
+    border-radius: 50%;
+    background-color: #4caf50; 
+    color: white; 
     display: flex;
     justify-content: center;
     align-items: center;

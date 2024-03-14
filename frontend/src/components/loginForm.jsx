@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './css/login_reg_style.css'; // Assuming you have a separate CSS file for LoginForm styles
+import './css/login_reg_style.css'; 
 
-function LoginForm({ onLogin, onBack }) { // Added onBack prop
+function LoginForm({ onLogin, onBack }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');

@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, request, jsonify, session
 from userAuth.auth import db
 from userAuth.auth import User
+from tagIdentifier.tag import add_tag_to_user
 
 # Models
 class AdvicePost(db.Model):
@@ -9,8 +10,6 @@ class AdvicePost(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='advice_post', lazy=True)
     replies = db.relationship('Reply', backref='advice_post', lazy=True)
-    tags = db.relationship('Tag', lazy='subquery',
-                           backref=db.backref('posts', lazy=True))
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -33,6 +32,7 @@ def create_advice_post():
     new_post = AdvicePost(question=data['question'], user_id=session['user_id'])
     db.session.add(new_post)
     db.session.commit()
+    add_tag_to_user(data['question'])
     return jsonify({'message': 'Advice post created', 'id': new_post.id}), 201
 
 @advice_posts_bp.route('/advice/<int:post_id>/reply', methods=['POST'])
@@ -62,6 +62,7 @@ def post_comment(post_id):
     new_comment = Comment(content=data['content'], user_id=session['user_id'], advice_post_id=post_id)
     db.session.add(new_comment)
     db.session.commit()
+    add_tag_to_user(data['content'])
     return jsonify({'message': 'Comment added', 'post_id': post_id, 'comment_id': new_comment.id}), 201
 
 @advice_posts_bp.route('/advice/<int:post_id>', methods=['DELETE'])

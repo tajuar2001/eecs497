@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './css/advicePosts.css'; // Assuming you have a separate CSS file for AdvicePage styles
+import './css/advicePosts.css'; 
 import CreateAdvicePost from './CreateAdvicePost';
 import './css/advicePosts.css';
-import PostReply from './PostReply'; // Make sure this path matches your file structure
+import PostReply from './PostReply'; 
 
 function AdvicePosts({ user }) {
   const [posts, setPosts] = useState([]);
@@ -65,7 +65,6 @@ function AdvicePosts({ user }) {
                               )}
                           </div>
                       ))}
-                      {/* Render the PostReply component here to make it appear under the last reply */}
                       <PostReply postId={post.id} refreshPage={fetchPosts} />
                   </div>
               </div>

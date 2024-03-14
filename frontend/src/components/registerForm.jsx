@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './css/login_reg_style.css'; // Assuming you have a separate CSS file for LoginForm styles
+import './css/login_reg_style.css'; 
 
-function RegisterForm({ onRegister, onBack }) { // Include onBack in the props
+function RegisterForm({ onRegister, onBack }) { 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -18,7 +18,7 @@ function RegisterForm({ onRegister, onBack }) { // Include onBack in the props
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Failed to register');
-            onRegister(data); // Notifies the parent component about the registration
+            onRegister(data); 
         } catch (error) {
             setError(error.message);
         }

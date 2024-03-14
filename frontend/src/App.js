@@ -12,7 +12,6 @@ function App() {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        // Store the current page and user in localStorage whenever they change
         localStorage.setItem('currentPage', currentPage);
         localStorage.setItem('user', JSON.stringify(user));
     }, [currentPage, user]);

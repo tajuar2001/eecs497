@@ -1,11 +1,11 @@
 import React from 'react';
-import './css/budgetingPage.css'; // Ensure the path is correct
+import './css/budgetingPage.css'; 
 
 function BudgetingPage({ onBackClick }) {
   return (
     <div className="budgeting-page-container">
       <h2>Budgeting Resources</h2>
-      {/* Your BudgetingPage content goes here */}
+      {/* content here */}
       <button className="back-button" onClick={onBackClick}></button>
     </div>
   );

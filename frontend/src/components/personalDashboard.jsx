@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HelpPage from './helpPage';
 import axios from 'axios';
 
-import './css/userProfile.css'; // Make sure to create a corresponding CSS file for styling
+import './css/userProfile.css'; 
 import './css/dashBoard.css';
 
 function PersonalDashboardPage({ user }) {
@@ -10,18 +10,34 @@ function PersonalDashboardPage({ user }) {
     const [newKidName, setNewKidName] = useState('');
     const [newKidBirthday, setNewKidBirthday] = useState('');
     const [helpModalOpen, setHelpModalOpen] = useState(false);
+    const [tags, setTags] = useState([]);
     const toggleHelpMode = () => setHelpModalOpen(!helpModalOpen);
 
     useEffect(() => {
-        // Fetch kids when the component mounts
-        axios.get('/api/kids')
-            .then(response => {
-                setKids(response.data);
-            })
-            .catch(error => console.error('Error fetching kids:', error));
-    }, []);
+        // This function fetches both kids and tags data
+        const fetchData = async () => {
+            try {
+                // Fetch kids associated with the current user
+                const kidsResponse = await axios.get('/api/kids', {
+                    withCredentials: true // if your server requires authentication
+                });
+                setKids(kidsResponse.data);
 
-    // Format today's date
+                // Fetch tags associated with the current user
+                const tagsResponse = await axios.get('/api/user/tags', {
+                    withCredentials: true // if your server requires authentication
+                });
+                setTags(tagsResponse.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                // Handle errors (like showing a message to the user)
+            }
+        };
+
+        fetchData(); // Invoke the function to fetch data
+    }, []); // Empty dependency array ensures this effect only runs once
+
+
     const today = new Date().toLocaleDateString('en-US', { 
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
     });
@@ -72,6 +88,14 @@ function PersonalDashboardPage({ user }) {
                 />
                 <button type="submit">Add Kid</button>
             </form>
+            <div className="tags-section">
+                <h3>My Tags</h3>
+                <ul>
+                    {tags.map((tag, index) => (
+                        <li key={index}>{tag.name}</li>
+                    ))}
+                </ul>
+            </div>
             <button className="help-button" onClick={toggleHelpMode}>?</button>
             {helpModalOpen && <HelpPage onClose={toggleHelpMode} />}
         </div>
