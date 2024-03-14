@@ -58,8 +58,8 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
                 <div className="user-greeting">Hi, {user.name}</div>
                 <div className="navigation-center">
                     <button onClick={() => handleTabChange('advice')} className={activeTab === 'advice' ? 'active' : ''}>Advice</button>
-                    <button onClick={() => handleTabChange('resources')} className={activeTab === 'resources' ? 'active' : ''}>Resources</button>
                     <button onClick={() => handleTabChange('community')} className={activeTab === 'community' ? 'active' : ''}>Community</button>
+                    <button onClick={() => handleTabChange('resources')} className={activeTab === 'resources' ? 'active' : ''}>Resources</button>
                 </div>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
 
