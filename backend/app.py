@@ -27,10 +27,15 @@ migrate = Migrate(app, db)
 # Import and register blueprints after initializing db to avoid circular imports
 from routes import main_routes
 from userAuth.auth import auth_routes
+from kidsBackend.kids import kid_routes
+from tagIdentifier.tag import tag_bp
 
 app.register_blueprint(main_routes)
 app.register_blueprint(auth_routes)
 app.register_blueprint(advice_posts_bp, url_prefix='/api')
+app.register_blueprint(kid_routes, url_prefix='/api')
+app.register_blueprint(tag_bp, url_prefix='/api')
+
 
 if __name__ == '__main__':
     with app.app_context():

@@ -9,6 +9,8 @@ class AdvicePost(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='advice_post', lazy=True)
     replies = db.relationship('Reply', backref='advice_post', lazy=True)
+    tags = db.relationship('Tag', lazy='subquery',
+                           backref=db.backref('posts', lazy=True))
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
