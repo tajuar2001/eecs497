@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import './css/advicePage.css';
+import './css/advicePosts.css';
 // Import your AuthContext or similar here
 
 function CreateAdvicePost({refreshPage}) {

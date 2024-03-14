@@ -4,6 +4,12 @@ import BudgetingPage from './resources/BudgetingPage.jsx';
 import LivingExpense from './resources/livingExpense.jsx';
 import EducationPage from './resources/EducationPage.jsx';
 import FoodPage from './resources/FoodPage.jsx';
+import ParksPage from './resources/ParksPage.jsx';
+import ShoppingPage from './resources/ShoppingPage.jsx';
+import DaycarePage from './resources/DaycarePage.jsx';
+import HealthcarePage from './resources/HealthcarePage.jsx';
+import CollegeFund from './resources/CollegeFund.jsx';
+import EtcPage from './resources/EtcPage.jsx';
 import { useState, useEffect } from 'react';
 
 function ResourcesPage() {
@@ -21,12 +27,12 @@ function ResourcesPage() {
     { name: 'Living Expense', icon: 'living-expense-icon', color: 'blue', Component: LivingExpense },
     { name: 'Education', icon: 'education-icon', color: 'green', Component: EducationPage },
     { name: 'Food', icon: 'food-icon', color: 'yellow', Component: FoodPage },
-    { name: 'Parks', icon: 'parks-icon', color: 'teal' },
-    { name: 'Shopping', icon: 'shopping-icon', color: 'lightblue' },
-    { name: 'Daycare', icon: 'daycare-icon', color: 'orange' },
-    { name: 'Healthcare', icon: 'healthcare-icon', color: 'purple' },
-    { name: 'College Fund', icon: 'college-fund-icon', color: 'violet' },
-    { name: 'Etc', icon: 'etc-icon', color: 'grey' }
+    { name: 'Parks', icon: 'parks-icon', color: 'teal', Component: ParksPage },
+    { name: 'Shopping', icon: 'shopping-icon', color: 'lightblue', Component: ShoppingPage },
+    { name: 'Daycare', icon: 'daycare-icon', color: 'orange', Component: DaycarePage },
+    { name: 'Healthcare', icon: 'healthcare-icon', color: 'purple', Component: HealthcarePage },
+    { name: 'College Fund', icon: 'college-fund-icon', color: 'violet', Component: CollegeFund },
+    { name: 'Etc', icon: 'etc-icon', color: 'grey', Component: EtcPage }
   ];
 
   // The click handler now just sets the name of the resource.
@@ -49,6 +55,18 @@ function ResourcesPage() {
     content = <EducationPage onBackClick={handleBackClick} />;
   } else if (activeResource === 'Food') {
     content = <FoodPage onBackClick={handleBackClick} />;
+  } else if (activeResource === 'Parks') {
+    content = <ParksPage onBackClick={handleBackClick} />;
+  } else if (activeResource === 'Shopping') {
+    content = <ShoppingPage onBackClick={handleBackClick} />;
+  } else if (activeResource === 'Daycare') {
+    content = <DaycarePage onBackClick={handleBackClick} />;
+  } else if (activeResource === 'Healthcare') {
+    content = <HealthcarePage onBackClick={handleBackClick} />;
+  } else if (activeResource === 'College Fund') {
+    content = <CollegeFund onBackClick={handleBackClick} />;
+  } else if (activeResource === 'Etc') {
+    content = <EtcPage onBackClick={handleBackClick} />;
   } else {
     content = (
       <div className="resourcesPage">

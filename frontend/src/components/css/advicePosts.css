@@ -1,0 +1,79 @@
+/* Global styles for the Advice Page */
+.advice-page h1 {
+    font-size: 2.5rem; /* Larger font size for better visibility */
+    font-weight: bold; /* Emphasize the heading */
+    margin-bottom: 20px; /* Spacing below the heading for separation */
+    color: #333; /* Subtle, dark color for improved readability */
+}
+
+.advice-page {
+    text-align: center; /* Center alignment for text */
+    font-family: 'Arial', sans-serif; /* Clean, readable font */
+}
+
+/* Style for the container holding the posts */
+.advice-posts {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 20px; /* Padding for space inside the container */
+    background-color: #f9f9f9; /* Light background to distinguish the area */
+    border-radius: 5px; /* Softened edges */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+/* Button styles */
+.delete-btn {
+    background-color: #ff4d4d; /* Softer red for a friendlier appearance */
+    color: white;
+    border: none;
+    padding: 8px 15px; /* Increased padding for a larger click area */
+    margin-left: 10px; /* Space from the text or other elements */
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners for a modern look */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.delete-btn:hover {
+    background-color: #cc0000; /* Darker shade of red on hover for feedback */
+}
+
+/* Styles for individual advice posts and replies for visual hierarchy */
+.advice-post, .reply {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Space between content and delete button */
+    align-items: center; /* Center align the items vertically */
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.advice-post p, .reply p {
+    margin: 0; /* Remove margin to prevent spacing issues */
+    flex-grow: 1; /* Allow the paragraph to take up available space */
+}
+
+.delete-btn {
+    margin-left: 15px; /* Ensure there's space between text and button */
+}
+/* Responsive design adjustments for smaller screens */
+@media (max-width: 768px) {
+    .advice-page h1 {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+    }
+    .advice-posts {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+.replies-container {
+    margin-top: 15px;
+    padding-left: 20px; /* Indent replies to show they are nested within the post */
+    border-left: 2px solid #eee; /* Optional: add a visual cue to indicate the start of replies */
+}
+
+.reply {
+    margin-bottom: 10px; /* Ensure spacing between individual replies */
+}

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import './css/userProfile.css'; // Make sure to create a corresponding CSS file for styling
 
-import AdvicePage from './advicePage';
 import AdvicePosts from './AdvicePosts';
 
 import CommunityPage from './communityPage';
