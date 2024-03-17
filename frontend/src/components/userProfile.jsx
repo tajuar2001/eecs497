@@ -76,10 +76,11 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
                 {activeTab === 'advice' && <AdvicePosts user={user}/>}
                 {activeTab === 'resources' && <ResourcesPage />}
                 {activeTab === 'community' && <CommunityPage/>}
+                {activeTab== "null" && <PersonalDashboardPage user={user}/>}
             </div>
         </div>
 
-        {activeTab== "null" && <PersonalDashboardPage user={user}/>}
+        
             
 
 

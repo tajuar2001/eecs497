@@ -4,9 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from routes import main_routes
 from userAuth.auth import auth_routes, db
-from flask import request, render_template, jsonify, url_for, redirect, session
-from datetime import timedelta
 from adviceBackend.advicePosts import advice_posts_bp
+from flask_caching import Cache
+
 
 migrate = Migrate()
 
@@ -23,6 +23,7 @@ app.config['SECRET_KEY'] = "secretkey_set_later"
 CORS(app, supports_credentials=True)
 db.init_app(app)
 migrate = Migrate(app, db)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 # Import and register blueprints after initializing db to avoid circular imports
 from routes import main_routes

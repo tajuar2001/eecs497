@@ -1,7 +1,5 @@
-from flask import Flask, Blueprint, request, jsonify, session
-from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint, request, jsonify, session
 from userAuth.auth import db
-from userAuth.auth import User
 from datetime import datetime
 
 class Kid(db.Model):
@@ -13,7 +11,7 @@ class Kid(db.Model):
 
     parent = db.relationship('User', backref=db.backref('kids', lazy=True))
 
-kid_routes = Blueprint('kid_routes', __name__)
+kid_routes = Blueprint('kid_routess', __name__)
 
 @kid_routes.route('/kids', methods=['GET'])
 def get_kids():

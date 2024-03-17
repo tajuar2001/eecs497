@@ -1,9 +1,8 @@
-from flask import Flask, request, jsonify, Blueprint, session
-from flask_sqlalchemy import SQLAlchemy
-from gensim.models import Word2Vec, KeyedVectors
+from flask import request, jsonify, Blueprint, session
 import numpy as np
-from userAuth.auth import db, User
+from userAuth.auth import db
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sqlalchemy.exc import SQLAlchemyError
 
 tag_bp = Blueprint('tags', __name__)
 
@@ -14,8 +13,7 @@ class Tag(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     user = db.relationship('User', backref=db.backref('tags', lazy=True))
-
-tfidf_vectorizer = TfidfVectorizer()
+    weight = db.Column(db.Float, default=1.0)  # Default weight is 1.0
 
 def generate_tags_from_text(text, top_n=5):
     corpus = [text]
@@ -29,29 +27,46 @@ def generate_tags_from_text(text, top_n=5):
 
     return [word for word, score in top_features]
 
+# Function to add tags to a user
 def add_tag_to_user(text):
-    tags = generate_tags_from_text(text)
-    for tag_name in tags:
-        # Check if the user already has this tag
-        tag = Tag.query.filter_by(name=tag_name, user_id=session["user_id"]).first()
+    user_id = session["user_id"]
+    tags_with_weights = generate_tags_from_text(text)
+    for tag_name, weight in tags_with_weights:
+        tag = Tag.query.filter_by(name=tag_name, user_id=user_id).first()
         if not tag:
-            # Create a new tag and associate it with the user
-            tag = Tag(name=tag_name, user_id=session["user_id"])
-            print(tag_name)
+            tag = Tag(name=tag_name, user_id=user_id, weight=weight)
+        else:
+            tag.weight = weight
+        db.session.add(tag)
+        db.session.commit()
+
+def add_tag_to_user(text, user_id):
+    tags_with_weights = generate_tags_from_text(text)
+    for tag_name, weight in tags_with_weights:
+        tag = Tag.query.filter_by(name=tag_name, user_id=user_id).first()
+        if not tag:
+            tag = Tag(name=tag_name, user_id=user_id, weight=weight)
+        else:
+            tag.weight = weight
+        try:
             db.session.add(tag)
             db.session.commit()
+        except SQLAlchemyError as e:
+            db.session.rollback()
 
 @tag_bp.route('/recommendations/<int:post_id>', methods=['GET'])
 def get_recommendations(post_id):
-    k = request.args.get('k')
-    return jsonify(k)
+    k = request.args.get('k', default=5, type=int)
+    # Placeholder for actual recommendation logic
+    # Use `k` and `post_id` to generate recommendations
+    return jsonify({"message": f"Recommendations for post {post_id} with k={k} not implemented."})
 
 @tag_bp.route('/user/tags', methods=['GET'])
 def get_user_tags():
-
-    user_id = session["user_id"]
-    # Get tags associated with the user
-    tags = db.session.query(Tag).filter(Tag.user_id == user_id).all()
-    tag_list = [{'id': tag.id, 'name': tag.name} for tag in tags]
+    user_id = session.get("user_id")
+    if user_id is None:
+        return jsonify({"error": "User not found"}), 404
+    tags = Tag.query.filter_by(user_id=user_id).all()
+    tag_list = [{'id': tag.id, 'name': tag.name, 'weight': tag.weight} for tag in tags]
     return jsonify(tag_list), 200
 

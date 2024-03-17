@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session
 from userAuth.auth import db
 from userAuth.auth import User
 from tagIdentifier.tag import add_tag_to_user
