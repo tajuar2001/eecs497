@@ -1,15 +1,10 @@
-// In src/components/UserProfile.js
-import React, { useState, useEffect } from 'react';
 import './css/userProfile.css'; 
-
 import AdvicePosts from './AdvicePosts';
-
 import CommunityPage from './communityPage';
 import ResourcesPage from './resourcesPage';
-
+import React, { useState, useEffect } from 'react';
 import PersonalDashboardPage from './personalDashboard';
 
-import CreateAdvicePost from './CreateAdvicePost';
 
 function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
     const [activeTab, setActiveTab] = useState(null);
