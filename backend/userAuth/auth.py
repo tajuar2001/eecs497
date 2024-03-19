@@ -20,6 +20,7 @@ class User(db.Model):
     advice_posts = db.relationship('AdvicePost', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='comment_author', lazy=True)
     replies = db.relationship('Reply', backref='reply_author', lazy=True)
+    communities = db.relationship('Community', secondary='community_membership', backref='members', lazy=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

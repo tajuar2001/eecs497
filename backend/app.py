@@ -6,7 +6,7 @@ from routes import main_routes
 from userAuth.auth import auth_routes, db
 from adviceBackend.advicePosts import advice_posts_bp
 from flask_caching import Cache
-
+from communityBackend.community import community_bp
 
 migrate = Migrate()
 
@@ -36,6 +36,7 @@ app.register_blueprint(auth_routes)
 app.register_blueprint(advice_posts_bp, url_prefix='/api')
 app.register_blueprint(kid_routes, url_prefix='/api')
 app.register_blueprint(tag_bp, url_prefix='/api')
+app.register_blueprint(community_bp, url_prefix='/api')
 
 
 if __name__ == '__main__':

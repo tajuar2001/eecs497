@@ -70,7 +70,7 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
             <div className="section-content">
                 {activeTab === 'advice' && <AdvicePosts user={user}/>}
                 {activeTab === 'resources' && <ResourcesPage />}
-                {activeTab === 'community' && <CommunityPage/>}
+                {activeTab === 'community' && <CommunityPage user={user}/>}
                 {activeTab== "null" && <PersonalDashboardPage user={user}/>}
             </div>
         </div>

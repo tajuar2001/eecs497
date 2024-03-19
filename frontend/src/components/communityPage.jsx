@@ -1,70 +1,145 @@
-import React, { useState } from 'react';
-import './css/communityPage.css'; // Assuming you have a separate CSS file for CommunityPage styles
-import CreateCommunityPost from './createCommunityPost.jsx';
+import React, { useState, useEffect } from 'react';
+import './css/communityPage.css';
+import CommunityDetails from './CommunityDetails';
 
+function CommunityPage({ user }) {
+  const [communities, setCommunities] = useState([]);
+  const [userCommunities, setUserCommunities] = useState([]);
+  const [selectedCommunity, setSelectedCommunity] = useState(null);
+  const [newCommunityName, setNewCommunityName] = useState('');
+  const [newCommunityDescription, setNewCommunityDescription] = useState('');
 
-function CommunityPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [createPostMenuOpen, setCreatePostMenuOpen] = useState(false);
+  useEffect(() => {
+    fetchCommunities();
+    fetchUserCommunities();
+  }, []);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  const fetchCommunities = async () => {
+    try {
+      const response = await fetch('/api/communities');
+      const data = await response.json();
+      setCommunities(data);
+    } catch (error) {
+      console.error('Error fetching communities:', error);
+    }
   };
 
-  const toggleCreatePostMenu = () => {
-    setCreatePostMenuOpen(!createPostMenuOpen);
+  const fetchUserCommunities = async () => {
+    try {
+      const response = await fetch('/api/user/communities');
+      const data = await response.json();
+      setUserCommunities(data);
+    } catch (error) {
+      console.error('Error fetching user communities:', error);
+    }
+  };
+
+  const handleCommunityClick = (community) => {
+    setSelectedCommunity(community);
+  };
+
+  const handleJoinCommunity = async (communityId) => {
+    try {
+      await fetch(`/api/communities/${communityId}/join`, { method: 'POST' });
+      fetchUserCommunities();
+    } catch (error) {
+      console.error('Error joining community:', error);
+    }
+  };
+
+  const handleLeaveCommunity = async (event, communityId) => {
+    event.stopPropagation();
+    try {
+      await fetch(`/api/communities/${communityId}/leave`, { method: 'POST' });
+      fetchUserCommunities();
+    } catch (error) {
+      console.error('Error leaving community:', error);
+    }
+  };
+
+  const handleCreateCommunity = async () => {
+    try {
+      const response = await fetch('/api/communities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newCommunityName, description: newCommunityDescription }),
+      });
+      const data = await response.json();
+      setNewCommunityName('');
+      setNewCommunityDescription('');
+      fetchCommunities();
+    } catch (error) {
+      console.error('Error creating community:', error);
+    }
+  };
+
+  const handleDeleteCommunity = async (communityId) => {
+    try {
+      await fetch(`/api/communities/${communityId}`, {
+        method: 'DELETE',
+      });
+      fetchCommunities();
+      fetchUserCommunities();
+    } catch (error) {
+      console.error('Error deleting community:', error);
+    }
   };
 
   return (
     <div className="community-page">
-      <div className="navbar">
-        <div className="menu">
-          <button className="menu-button" onClick={toggleMenu}>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1024px-Hamburger_icon.svg.png" alt="Menu" style={{ width: '20px', height: '20px' }} />
-          </button>
-          {menuOpen && (
-            <div className="menu-content">
-              {/* Add your menu items here */}
-              <p>Menu Item 1</p>
-              <p>Menu Item 2</p>
-              <p>Menu Item 3</p>
+      {selectedCommunity ? (
+        <CommunityDetails user = {user} community={selectedCommunity} onBack={() => setSelectedCommunity(null)} />
+      ) : (
+        <>
+          <div className="community-sidebar">
+            <h2>Communities</h2>
+            <ul>
+              {communities.map((community) => (
+                <li key={community.id} onClick={() => handleCommunityClick(community)}>
+                {community.creator_id === user.id && (
+                <button onClick={() => handleDeleteCommunity(community.id)}>Delete Community</button>
+                )}
+                  {community.name}
+                  {userCommunities.some((c) => c.id === community.id) ? (
+                    <button onClick={(event) => handleLeaveCommunity(event, community.id)}>Leave</button>                  ) : (
+                    <button onClick={() => handleJoinCommunity(community.id)}>Join</button>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <div className="create-community">
+              <h3>Create Community</h3>
+              <input
+                type="text"
+                placeholder="Community Name"
+                value={newCommunityName}
+                onChange={(e) => setNewCommunityName(e.target.value)}
+              />
+              <textarea
+                placeholder="Community Description"
+                value={newCommunityDescription}
+                onChange={(e) => setNewCommunityDescription(e.target.value)}
+              ></textarea>
+              <button onClick={handleCreateCommunity}>Create</button>
             </div>
-          )}
-        </div>
-        <div className="buttons">
-          <div className="button unread" onClick={() => console.log('Unread')}>
-            Unread
           </div>
-          <div className="button hot" onClick={() => console.log('Hot')}>
-            Hot
+          <div className="community-content">
+            <div className="user-communities">
+              <h3>My Communities</h3>
+              <ul>
+                {userCommunities.map((community) => (
+                  <li key={community.id} onClick={() => handleCommunityClick(community)}>
+                    {community.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="button new" onClick={() => console.log('New')}>
-            New
-          </div>
-        </div>
-        <div className="search-bar">
-          <input type="text" placeholder="Search..." />
-          <button>Search</button>
-        </div>
-      </div>
-      <div className="content">
-        <h2>Community Page</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        <p>Fusce ac nunc tincidunt, viverra felis sit amet, commodo libero. Nullam vitae elit eu ex pharetra efficitur nec vel urna. Ut et arcu fermentum, efficitur ex et, tincidunt arcu.</p>
-        <img src="https://www.the-rampage.org/wp-content/uploads/2019/05/263480.jpg" alt="Community" style={{ maxHeight: '400px', width: 'auto' }} />
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod felis eget sapien scelerisque, id scelerisque justo vestibulum.</p>
-        {/* Add more Lorem Ipsum content here */}
-      </div>
-      <button className="create-post" onClick={toggleCreatePostMenu}>Create Post</button>
-      {createPostMenuOpen && <CreateCommunityPost onClose={toggleCreatePostMenu} />}
+        </>
+      )}
     </div>
   );
 }
 
 export default CommunityPage;
+
