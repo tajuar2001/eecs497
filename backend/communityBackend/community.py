@@ -7,6 +7,7 @@ class Community(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(255), nullable=True)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     members = db.relationship('User', secondary='community_membership', back_populates='communities')
     posts = db.relationship('CommunityPost', backref='community', lazy=True)
 
@@ -35,7 +36,7 @@ community_bp = Blueprint('community', __name__)
 @community_bp.route('/communities', methods=['GET'])
 def get_communities():
     communities = Community.query.all()
-    return jsonify([{'id': c.id, 'name': c.name, 'description': c.description} for c in communities]), 200
+    return jsonify([{'id': c.id, 'name': c.name, 'description': c.description, 'creator_id':c.creator_id} for c in communities]), 200
 
 @community_bp.route('/communities/<int:community_id>/join', methods=['POST'])
 def join_community(community_id):
@@ -100,12 +101,11 @@ def create_community():
     name = data.get('name')
     description = data.get('description')
 
-    # Check if a community with the same name already exists
     existing_community = Community.query.filter_by(name=name).first()
     if existing_community:
         return jsonify({'message': 'A community with this name already exists'}), 400
 
-    community = Community(name=name, description=description)
+    community = Community(name=name, description=description, creator_id = session["user_id"])
     db.session.add(community)
     db.session.commit()
     return jsonify({'message': 'Community created successfully', 'community_id': community.id}), 201
@@ -133,10 +133,26 @@ def delete_community(community_id):
     community = Community.query.get(community_id)
     if not community:
         return jsonify({'message': 'Community not found'}), 404
+
     if community.creator_id != user_id:
         return jsonify({'message': 'You are not authorized to delete this community'}), 403
+
+    # Delete associated posts and replies
+    posts = CommunityPost.query.filter_by(community_id=community_id).all()
+    for post in posts:
+        replies = CommunityPostReply.query.filter_by(post_id=post.id).all()
+        for reply in replies:
+            db.session.delete(reply)
+        db.session.delete(post)
+
+    # Delete community memberships
+    memberships = CommunityMembership.query.filter_by(community_id=community_id).all()
+    for membership in memberships:
+        db.session.delete(membership)
+
     db.session.delete(community)
     db.session.commit()
+
     return jsonify({'message': 'Community deleted successfully'}), 200
 
 @community_bp.route('/communities/<int:community_id>/posts/<int:post_id>', methods=['DELETE'])
@@ -147,6 +163,12 @@ def delete_post(community_id, post_id):
         return jsonify({'message': 'Post not found'}), 404
     if post.user_id != user_id:
         return jsonify({'message': 'You are not authorized to delete this post'}), 403
+
+    # Delete associated replies
+    replies = CommunityPostReply.query.filter_by(post_id=post_id).all()
+    for reply in replies:
+        db.session.delete(reply)
+
     db.session.delete(post)
     db.session.commit()
     return jsonify({'message': 'Post deleted successfully'}), 200

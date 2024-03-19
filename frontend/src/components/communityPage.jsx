@@ -73,7 +73,8 @@ function CommunityPage({ user }) {
     }
   };
 
-  const handleDeleteCommunity = async (communityId) => {
+  const handleDeleteCommunity = async (event, communityId) => {
+    event.stopPropagation();
     try {
       await fetch(`/api/communities/${communityId}`, {
         method: 'DELETE',
@@ -97,7 +98,7 @@ function CommunityPage({ user }) {
               {communities.map((community) => (
                 <li key={community.id} onClick={() => handleCommunityClick(community)}>
                 {community.creator_id === user.id && (
-                <button onClick={() => handleDeleteCommunity(community.id)}>Delete Community</button>
+                <button onClick={(event) => handleDeleteCommunity(event,community.id)}>Delete Community</button>
                 )}
                   {community.name}
                   {userCommunities.some((c) => c.id === community.id) ? (
