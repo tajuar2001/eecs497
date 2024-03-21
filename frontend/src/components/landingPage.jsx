@@ -1,6 +1,6 @@
 import React from 'react';
 import './css/landingpage.css'; // Ensure this path is correct
-import newLeafCommunityImage from '/home/tajuarb/Coding/newLeaf/frontend/src/components/images/newLeafCommunity.png'; // Adjust the path as necessary
+import newLeafCommunityImage from './images/newLeafCommunity.png'; // Adjust the path as necessary
 
 function LandingPage({ onNavigate }) {
   return (

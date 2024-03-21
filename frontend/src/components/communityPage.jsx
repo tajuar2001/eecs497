@@ -8,11 +8,20 @@ function CommunityPage({ user }) {
   const [selectedCommunity, setSelectedCommunity] = useState(null);
   const [newCommunityName, setNewCommunityName] = useState('');
   const [newCommunityDescription, setNewCommunityDescription] = useState('');
+  const [showCreateCommunityPopup, setShowCreateCommunityPopup] = useState(false);
 
   useEffect(() => {
     fetchCommunities();
     fetchUserCommunities();
+    const storedCommunity = JSON.parse(localStorage.getItem('selectedCommunity'));
+    if (storedCommunity) {
+      setSelectedCommunity(storedCommunity);
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('selectedCommunity', JSON.stringify(selectedCommunity));
+  }, [selectedCommunity]);
 
   const fetchCommunities = async () => {
     try {
@@ -58,6 +67,10 @@ function CommunityPage({ user }) {
   };
 
   const handleCreateCommunity = async () => {
+    if (!newCommunityName.trim()) {
+      console.error('Community name cannot be empty');
+      return;
+    }
     try {
       const response = await fetch('/api/communities', {
         method: 'POST',
@@ -68,6 +81,7 @@ function CommunityPage({ user }) {
       setNewCommunityName('');
       setNewCommunityDescription('');
       fetchCommunities();
+      setShowCreateCommunityPopup(false);
     } catch (error) {
       console.error('Error creating community:', error);
     }
@@ -88,59 +102,69 @@ function CommunityPage({ user }) {
 
   return (
     <div className="community-page">
+      <div className="dropdown">
+        <div className="dropdown-header">My Communities</div>
+        <div className="dropdown-content">
+          {userCommunities.map((community) => (
+            <div key={community.id} className="dropdown-item" onClick={() => handleCommunityClick(community)}>
+              {community.name}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {selectedCommunity ? (
-        <CommunityDetails user = {user} community={selectedCommunity} onBack={() => setSelectedCommunity(null)} />
+        <CommunityDetails user={user} community={selectedCommunity} onBack={() => setSelectedCommunity(null)} />
       ) : (
-        <>
+        <div className="center-container">
           <div className="community-sidebar">
             <h2>Communities</h2>
             <ul>
               {communities.map((community) => (
                 <li key={community.id} onClick={() => handleCommunityClick(community)}>
-                {community.creator_id === user.id && (
-                <button onClick={(event) => handleDeleteCommunity(event,community.id)}>Delete Community</button>
-                )}
+                  {community.creator_id === user.id && (
+                    <button onClick={(event) => handleDeleteCommunity(event, community.id)}>Delete Community</button>
+                  )}
                   {community.name}
                   {userCommunities.some((c) => c.id === community.id) ? (
-                    <button onClick={(event) => handleLeaveCommunity(event, community.id)}>Leave</button>                  ) : (
+                    <button onClick={(event) => handleLeaveCommunity(event, community.id)}>Leave</button>
+                  ) : (
                     <button onClick={() => handleJoinCommunity(community.id)}>Join</button>
                   )}
                 </li>
               ))}
             </ul>
-            <div className="create-community">
-              <h3>Create Community</h3>
-              <input
-                type="text"
-                placeholder="Community Name"
-                value={newCommunityName}
-                onChange={(e) => setNewCommunityName(e.target.value)}
-              />
-              <textarea
-                placeholder="Community Description"
-                value={newCommunityDescription}
-                onChange={(e) => setNewCommunityDescription(e.target.value)}
-              ></textarea>
-              <button onClick={handleCreateCommunity}>Create</button>
-            </div>
           </div>
           <div className="community-content">
-            <div className="user-communities">
-              <h3>My Communities</h3>
-              <ul>
-                {userCommunities.map((community) => (
-                  <li key={community.id} onClick={() => handleCommunityClick(community)}>
-                    {community.name}
-                  </li>
-                ))}
-              </ul>
+            <div className="create-community-button">
+              <button className="create-community-btn" onClick={() => setShowCreateCommunityPopup(true)}>+</button>
             </div>
           </div>
-        </>
+        </div>
+      )}
+
+      {showCreateCommunityPopup && (
+        <div className="popup-container">
+          <div className="popup">
+            <h3>Create Community</h3>
+            <input
+              type="text"
+              placeholder="Community Name"
+              value={newCommunityName}
+              onChange={(e) => setNewCommunityName(e.target.value)}
+            />
+            <textarea
+              placeholder="Community Description"
+              value={newCommunityDescription}
+              onChange={(e) => setNewCommunityDescription(e.target.value)}
+            ></textarea>
+            <button onClick={handleCreateCommunity}>Create</button>
+            <button onClick={() => setShowCreateCommunityPopup(false)}>Cancel</button>
+          </div>
+        </div>
       )}
     </div>
   );
 }
 
 export default CommunityPage;
-

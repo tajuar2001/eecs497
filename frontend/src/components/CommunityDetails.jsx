@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function CommunityDetails({ user, community, onBack,}) {
+function CommunityDetails({ user, community, onBack }) {
   const [communityPosts, setCommunityPosts] = useState([]);
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
@@ -22,6 +22,10 @@ function CommunityDetails({ user, community, onBack,}) {
   };
 
   const handleCreatePost = async () => {
+    if (!newPostTitle.trim() || !newPostContent.trim()) {
+      console.error('Post title and content cannot be empty');
+      return;
+    }
     try {
       const response = await fetch(`/api/communities/${community.id}/posts`, {
         method: 'POST',
@@ -38,6 +42,10 @@ function CommunityDetails({ user, community, onBack,}) {
   };
 
   const handleReplyToPost = async (postId) => {
+    if (!replyContent.trim()) {
+      console.error('Reply content cannot be empty');
+      return;
+    }
     try {
       await fetch(`/api/communities/${community.id}/posts/${postId}/replies`, {
         method: 'POST',
@@ -79,6 +87,7 @@ function CommunityDetails({ user, community, onBack,}) {
     <div className="community-details">
       <button onClick={onBack}>Back</button>
       <h2>{community.name}</h2>
+      <p>{community.description}</p>
       <div className="create-post">
         <h3>Create Post</h3>
         <input
@@ -102,8 +111,8 @@ function CommunityDetails({ user, community, onBack,}) {
               <span className="post-author">{post.author}</span>: {post.content}
             </p>
             {post.user_id === user.id && (
-          <button onClick={() => handleDeletePost(post.id)}>Delete Post</button>
-        )}
+              <button onClick={() => handleDeletePost(post.id)}>Delete Post</button>
+            )}
             <button onClick={() => setSelectedPostId(post.id)}>Reply</button>
             {selectedPostId === post.id && (
               <div className="reply-input">
@@ -122,8 +131,8 @@ function CommunityDetails({ user, community, onBack,}) {
                     <p>
                       <span className="reply-author">{reply.author}</span>: {reply.content}
                     </p>
-                      {reply.user_id === user.id && (
-                        <button onClick={() => handleDeleteReply(post.id, reply.id)}>Delete Reply</button>
+                    {reply.user_id === user.id && (
+                      <button onClick={() => handleDeleteReply(post.id, reply.id)}>Delete Reply</button>
                     )}
                   </div>
                 ))}

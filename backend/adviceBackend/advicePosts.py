@@ -32,7 +32,7 @@ def create_advice_post():
     new_post = AdvicePost(question=data['question'], user_id=session['user_id'])
     db.session.add(new_post)
     db.session.commit()
-    add_tag_to_user(data['question'])
+    add_tag_to_user(data['question'], session['user_id'])
     return jsonify({'message': 'Advice post created', 'id': new_post.id}), 201
 
 @advice_posts_bp.route('/advice/<int:post_id>/reply', methods=['POST'])
@@ -62,7 +62,7 @@ def post_comment(post_id):
     new_comment = Comment(content=data['content'], user_id=session['user_id'], advice_post_id=post_id)
     db.session.add(new_comment)
     db.session.commit()
-    add_tag_to_user(data['content'])
+    add_tag_to_user(data['content'], session['user_id'])
     return jsonify({'message': 'Comment added', 'post_id': post_id, 'comment_id': new_comment.id}), 201
 
 @advice_posts_bp.route('/advice/<int:post_id>', methods=['DELETE'])
