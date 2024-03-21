@@ -12,30 +12,35 @@ function PersonalDashboardPage({ user }) {
     const [helpModalOpen, setHelpModalOpen] = useState(false);
     const [tags, setTags] = useState([]);
     const toggleHelpMode = () => setHelpModalOpen(!helpModalOpen);
+    const [profilePictureUrl, setProfilePictureUrl] = useState('');
 
     useEffect(() => {
-        // This function fetches both kids and tags data
         const fetchData = async () => {
             try {
-                // Fetch kids associated with the current user
                 const kidsResponse = await axios.get('/api/kids', {
-                    withCredentials: true // if your server requires authentication
+                    withCredentials: true
                 });
                 setKids(kidsResponse.data);
-
-                // Fetch tags associated with the current user
+    
                 const tagsResponse = await axios.get('/api/user/tags', {
-                    withCredentials: true // if your server requires authentication
+                    withCredentials: true
                 });
                 setTags(tagsResponse.data);
+    
+                const userResponse = await axios.get(`/profile_picture/${user.id}`, {
+                    withCredentials: true,
+                    responseType: 'blob'
+                });
+                const profilePictureBlob = new Blob([userResponse.data], { type: 'image/jpeg' });
+                const profilePictureUrl = URL.createObjectURL(profilePictureBlob);
+                setProfilePictureUrl(profilePictureUrl);
             } catch (error) {
                 console.error('Error fetching data:', error);
-                // Handle errors (like showing a message to the user)
             }
         };
-
-        fetchData(); // Invoke the function to fetch data
-    }, []); // Empty dependency array ensures this effect only runs once
+    
+        fetchData();
+    }, [user.id]);
 
 
     const today = new Date().toLocaleDateString('en-US', { 
@@ -57,8 +62,7 @@ function PersonalDashboardPage({ user }) {
     return (
         <div className="dashboard-container">
             <div className="user-info">
-                <img src="user-profile-picture-url" alt="User" className="user-picture" /> {/* Replace src with actual image path */}
-                <div className="user-details">
+            <img src={profilePictureUrl} alt="User" className="user-picture" />                <div className="user-details">
                     <h2 className="profile-name">Personal Dashboard</h2>
                     <p>Hello, {user.name}</p>
                     <p className="date">{today}</p>

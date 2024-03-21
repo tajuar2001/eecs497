@@ -1,11 +1,8 @@
-from flask import Flask, jsonify, send_from_directory
-from flask_cors import CORS
+from flask import jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask import Blueprint, jsonify, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from functools import wraps
-
+from io import BytesIO
 auth_routes = Blueprint('auth_routes', __name__)
 
 from flask_sqlalchemy import SQLAlchemy
@@ -17,6 +14,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(128))
+    profile_picture = db.Column(db.LargeBinary) 
     advice_posts = db.relationship('AdvicePost', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='comment_author', lazy=True)
     replies = db.relationship('Reply', backref='reply_author', lazy=True)
@@ -30,14 +28,22 @@ class User(db.Model):
 
 @auth_routes.route('/register', methods=['POST'])
 def register():
-    username = request.json['username']
-    password = request.json['password']
+    username = request.form['username']
+    password = request.form['password']
+    profile_picture = request.files.get('profile_picture')
 
     print("for register:")
     print("Username: " + username + ", pswd: " + password)
     if User.query.filter_by(username=username).first():
         return jsonify({'message': 'User already exists'}), 409
-    new_user = User(username=username)
+
+    if profile_picture:
+        # Read the file data
+        profile_picture_data = profile_picture.read()
+    else:
+        profile_picture_data = None
+
+    new_user = User(username=username, profile_picture=profile_picture_data)
     new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
@@ -74,3 +80,10 @@ def isLoggedIn():
         return jsonify({'message': 'Already logged in!', 'name': uname}), 200
     else:
         return jsonify({'message': 'No user currently logged in'}), 401
+
+@auth_routes.route('/profile_picture/<int:user_id>', methods=['GET'])
+def retrieve_profile(user_id):
+    user = User.query.get(user_id)
+    if user and user.profile_picture:
+        return send_file(BytesIO(user.profile_picture), mimetype='image/jpeg')
+    return '', 404
