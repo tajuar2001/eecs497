@@ -25,7 +25,7 @@ def generate_tags_from_text(text, top_n=5):
     sorted_indices = np.argsort(tfidf_scores)[::-1]
     top_features = [(feature_names[i], tfidf_scores[i]) for i in sorted_indices[:top_n]]
 
-    return [word for word, score in top_features]
+    return top_features
 
 # Function to add tags to a user
 def add_tag_to_user(text):
@@ -42,6 +42,8 @@ def add_tag_to_user(text):
 
 def add_tag_to_user(text, user_id):
     tags_with_weights = generate_tags_from_text(text)
+    if tags_with_weights == None:
+        return
     for tag_name, weight in tags_with_weights:
         tag = Tag.query.filter_by(name=tag_name, user_id=user_id).first()
         if not tag:
@@ -70,3 +72,27 @@ def get_user_tags():
     tag_list = [{'id': tag.id, 'name': tag.name, 'weight': tag.weight} for tag in tags]
     return jsonify(tag_list), 200
 
+
+
+from communityBackend.community import Community  # Import the Community model
+
+@tag_bp.route('/recommendations/communities/<int:user_id>', methods=['GET'])
+def get_community_recommendations(user_id):
+    print("requested")
+    user_tags = Tag.query.filter_by(user_id=user_id).all()
+    if not user_tags:
+        communities = Community.query.order_by(db.func.random()).limit(5).all()
+        return jsonify([{'id': c.id, 'name': c.name, 'description': c.description} for c in communities])
+
+    community_scores = {}
+    for community in Community.query.all():
+        community_score = 0
+        for tag in user_tags:
+            if tag.name in community.name.lower() or tag.name in community.description.lower():
+                community_score += tag.weight
+        community_scores[community] = community_score
+
+    sorted_communities = sorted(community_scores.items(), key=lambda x: x[1], reverse=True)
+    recommended_communities = [{'id': c.id, 'name': c.name, 'description': c.description} for c, _ in sorted_communities[:5]]
+
+    return jsonify(recommended_communities)

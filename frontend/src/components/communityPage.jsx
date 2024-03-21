@@ -9,10 +9,12 @@ function CommunityPage({ user }) {
   const [newCommunityName, setNewCommunityName] = useState('');
   const [newCommunityDescription, setNewCommunityDescription] = useState('');
   const [showCreateCommunityPopup, setShowCreateCommunityPopup] = useState(false);
+  const [recommendedCommunities, setRecommendedCommunities] = useState([]);
 
   useEffect(() => {
     fetchCommunities();
     fetchUserCommunities();
+    fetchRecommendedCommunities();
     const storedCommunity = JSON.parse(localStorage.getItem('selectedCommunity'));
     if (storedCommunity) {
       setSelectedCommunity(storedCommunity);
@@ -40,6 +42,16 @@ function CommunityPage({ user }) {
       setUserCommunities(data);
     } catch (error) {
       console.error('Error fetching user communities:', error);
+    }
+  };
+
+  const fetchRecommendedCommunities = async () => {
+    try {
+      const response = await fetch(`/api/recommendations/communities/${user.id}`);
+      const data = await response.json();
+      setRecommendedCommunities(data);
+    } catch (error) {
+      console.error('Error fetching recommended communities:', error);
     }
   };
 
@@ -142,6 +154,21 @@ function CommunityPage({ user }) {
           </div>
         </div>
       )}
+       <div className="recommended-communities">
+        <h3>Recommended for you</h3>
+        <ul>
+          {recommendedCommunities.map((community) => (
+            <li key={community.id}>
+              {community.name}
+              {userCommunities.some((c) => c.id === community.id) ? (
+                <button onClick={(event) => handleLeaveCommunity(event, community.id)}>Leave</button>
+              ) : (
+                <button onClick={() => handleJoinCommunity(community.id)}>Join</button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {showCreateCommunityPopup && (
         <div className="popup-container">
@@ -162,6 +189,7 @@ function CommunityPage({ user }) {
             <button onClick={() => setShowCreateCommunityPopup(false)}>Cancel</button>
           </div>
         </div>
+        
       )}
     </div>
   );

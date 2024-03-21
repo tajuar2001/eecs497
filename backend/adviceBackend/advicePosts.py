@@ -48,11 +48,13 @@ def get_advice_posts():
     posts = AdvicePost.query.all()
     all_posts = []
     for post in posts:
-        author = User.query.get(post.user_id).username
-        post_data = {'id': post.id, 'question': post.question, 'user_id': post.user_id, 'author':author, 'replies': []}
+        author = User.query.get(post.user_id)
+        if author != None:
+            post_data = {'id': post.id, 'question': post.question, 'user_id': post.user_id, 'author':author.username, 'replies': []}
         for reply in post.replies:
-            reply_author = User.query.get(reply.user_id).username  # Get the username of the reply's author
-            post_data['replies'].append({'id': reply.id, 'text': reply.text, 'user_id': reply.user_id, 'author':reply_author})
+            reply_author = User.query.get(reply.user_id)  # Get the username of the reply's author
+            if reply_author != None:
+                post_data['replies'].append({'id': reply.id, 'text': reply.text, 'user_id': reply.user_id, 'author':reply_author.username})
         all_posts.append(post_data)
     return jsonify(all_posts)
 

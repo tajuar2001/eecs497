@@ -39,7 +39,6 @@ def register():
         return jsonify({'message': 'User already exists'}), 409
     new_user = User(username=username)
     new_user.set_password(password)
-    print("Hash: " + new_user.password_hash)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
