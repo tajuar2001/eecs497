@@ -59,7 +59,7 @@ def login():
         session['user_id'] = user.id  # You can use Flask sessions or JWT tokens for maintaining session
         print(user.id)
         session.permanent = True
-        return jsonify({'message': 'Logged in successfully', 'name': user.username}), 200
+        return jsonify({'message': 'Logged in successfully', 'name': user.username, 'id': user.id}), 200
     return jsonify({'message': 'Invalid username or password'}), 401
 
 @auth_routes.route('/logout', methods=["POST"])
