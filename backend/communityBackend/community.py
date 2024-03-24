@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, session
 from userAuth.auth import db
 from userAuth.auth import User
+from tagIdentifier.tag import add_tag_to_user
 
 # Models
 class Community(db.Model):
@@ -81,6 +82,7 @@ def create_community_post(community_id):
     post = CommunityPost(title=title, content=content, user_id=user_id, community_id=community_id)
     db.session.add(post)
     db.session.commit()
+    add_tag_to_user(content, session['user_id'])
     return jsonify({'message': 'Post created successfully', 'post_id': post.id}), 201
 
 @community_bp.route('/communities/<int:community_id>/posts/<int:post_id>/replies', methods=['POST'])
@@ -92,6 +94,7 @@ def create_community_post_reply(community_id, post_id):
     reply = CommunityPostReply(content=content, user_id=user_id, post_id=post_id)
     db.session.add(reply)
     db.session.commit()
+    add_tag_to_user(content, session['user_id'])
     return jsonify({'message': 'Reply created successfully', 'reply_id': reply.id}), 201
 
 
