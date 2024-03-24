@@ -41,6 +41,7 @@ def post_reply(post_id):
     new_reply = Reply(text=data['text'], user_id=session['user_id'], advice_post_id=post_id)
     db.session.add(new_reply)
     db.session.commit()
+    add_tag_to_user(data['text'], session['user_id'])
     return jsonify({'message': 'Reply added', 'post_id': post_id, 'reply_id': new_reply.id}), 201
 
 @advice_posts_bp.route('/advice', methods=['GET'])
@@ -50,11 +51,14 @@ def get_advice_posts():
     for post in posts:
         author = User.query.get(post.user_id)
         if author != None:
-            post_data = {'id': post.id, 'question': post.question, 'user_id': post.user_id, 'author':author.username, 'replies': []}
+            pf_exists = (author.profile_picture != None)
+            author_image_url = f"/profile_picture/{author.id}" 
+            post_data = {'id': post.id, 'question': post.question, 'author_image_url': author_image_url, 'user_id': post.user_id, 'author':author.username, 'replies': []}
         for reply in post.replies:
             reply_author = User.query.get(reply.user_id)  # Get the username of the reply's author
             if reply_author != None:
-                post_data['replies'].append({'id': reply.id, 'text': reply.text, 'user_id': reply.user_id, 'author':reply_author.username})
+                author_image_url = f"/profile_picture/{reply_author.id}" 
+                post_data['replies'].append({'id': reply.id, 'text': reply.text, 'author_image_url': author_image_url, 'user_id': reply.user_id, 'author':reply_author.username})
         all_posts.append(post_data)
     return jsonify(all_posts)
 

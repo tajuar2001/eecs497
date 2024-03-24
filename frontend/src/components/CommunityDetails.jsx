@@ -108,6 +108,7 @@ function CommunityDetails({ user, community, onBack }) {
           <div key={post.id} className="post">
             <h4>{post.title}</h4>
             <p>
+              {post.author_image_url && <img src={post.author_image_url} alt="Author" className="author-profile-picture" />}
               <span className="post-author">{post.author}</span>: {post.content}
             </p>
             {post.user_id === user.id && (
@@ -129,6 +130,7 @@ function CommunityDetails({ user, community, onBack }) {
                 post.replies.map((reply) => (
                   <div key={reply.id} className="reply">
                     <p>
+                      {reply.author_image_url && <img src={reply.author_image_url} alt="Author" className="author-profile-picture" />}
                       <span className="reply-author">{reply.author}</span>: {reply.content}
                     </p>
                     {reply.user_id === user.id && (

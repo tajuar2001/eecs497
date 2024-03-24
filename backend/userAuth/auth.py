@@ -8,6 +8,8 @@ auth_routes = Blueprint('auth_routes', __name__)
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
+DEFAULT_PROFILE_PICTURE_PATH = "./userAuth/noPhoto.png"
+
 db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'user'
@@ -31,7 +33,7 @@ def register():
     username = request.form['username']
     password = request.form['password']
     profile_picture = request.files.get('profile_picture')
-
+    default_pfp = open(DEFAULT_PROFILE_PICTURE_PATH, 'rb').read()
     print("for register:")
     print("Username: " + username + ", pswd: " + password)
     if User.query.filter_by(username=username).first():
@@ -41,7 +43,7 @@ def register():
         # Read the file data
         profile_picture_data = profile_picture.read()
     else:
-        profile_picture_data = None
+        profile_picture_data = open(DEFAULT_PROFILE_PICTURE_PATH, 'rb').read()
 
     new_user = User(username=username, profile_picture=profile_picture_data)
     new_user.set_password(password)
@@ -59,7 +61,6 @@ def login():
     user = User.query.filter_by(username=username).first()
     print("for login:")
     print("Username: " + username + ", pswd: " + password)
-    print("hashed password: " + generate_password_hash(password))
     if user and user.check_password(password):
         session['user_id'] = user.id  # You can use Flask sessions or JWT tokens for maintaining session
         print(user.id)

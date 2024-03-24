@@ -117,11 +117,13 @@ function CommunityPage({ user }) {
       <div className="dropdown">
         <div className="dropdown-header">My Communities</div>
         <div className="dropdown-content">
-          {userCommunities.map((community) => (
-            <div key={community.id} className="dropdown-item" onClick={() => handleCommunityClick(community)}>
-              {community.name}
-            </div>
-          ))}
+          {userCommunities
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((community) => (
+              <div key={community.id} className="dropdown-item" onClick={() => handleCommunityClick(community)}>
+                {community.name}
+              </div>
+            ))}
         </div>
       </div>
 

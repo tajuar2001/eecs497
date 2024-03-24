@@ -47,8 +47,9 @@ function AdvicePosts({ user }) {
 
   const fetchProfilePicture = async userId => {
     try {
-      const response = await axios.get(`/api/profile_picture/${userId}`, {
-        responseType: 'blob',
+      const response = await axios.get(`/profile_picture/${userId}`, {
+        withCredentials: true,
+                responseType: 'blob'
       });
       const profilePictureBlob = new Blob([response.data], { type: 'image/jpeg' });
       return URL.createObjectURL(profilePictureBlob);
@@ -64,9 +65,9 @@ function AdvicePosts({ user }) {
         <div key={post.id} className="advice-post">
           <div className="post-content">
             <div className="post-author">
-              {post.author_profile_picture && (
+              {post.author_image_url && (
                 <img
-                  src={fetchProfilePicture(post.user_id)}
+                  src={post.author_image_url}
                   alt="Author Profile"
                   className="profile-picture"
                 />
@@ -88,9 +89,9 @@ function AdvicePosts({ user }) {
               post.replies.map(reply => (
                 <div key={reply.id} className="reply">
                   <div className="reply-author">
-                    {reply.author_profile_picture && (
+                    {reply.author_image_url && (
                       <img
-                        src={reply.author_profile_picture}
+                        src={reply.author_image_url}
                         alt="Author Profile"
                         className="profile-picture"
                       />

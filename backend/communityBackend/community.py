@@ -116,10 +116,12 @@ def get_community_posts(community_id):
     post_data = []
     for post in posts:
         author = User.query.get(post.user_id)
-        if author != None:
-            replies = [{'id': reply.id, 'content': reply.content, 'user_id': reply.user_id, 'author': User.query.get(reply.user_id).username} for reply in post.replies]
-            post_data.append({'id': post.id, 'title': post.title, 'content': post.content, 'user_id': post.user_id, 'author': author.username, 'replies': replies})
+        if author is not None:
+            author_image_url = f"/profile_picture/{author.id}" 
+            replies = [{'id': reply.id, 'content': reply.content, 'user_id': reply.user_id, 'author': User.query.get(reply.user_id).username, 'author_image_url': f"/profile_picture/{reply.user_id}"} for reply in post.replies]
+            post_data.append({'id': post.id, 'title': post.title, 'content': post.content, 'user_id': post.user_id, 'author': author.username, 'author_image_url': author_image_url, 'replies': replies})
     return jsonify(post_data), 200
+
 
 @community_bp.route('/user/communities', methods=['GET'])
 def get_user_communities():
