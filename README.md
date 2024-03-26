@@ -74,7 +74,7 @@ To run New Leaf locally on your machine, follow these steps:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/new-leaf.git
+   git clone https://github.com/tajuar2001/newLeaf.git
    ```
 
 2. Install the required dependencies:
