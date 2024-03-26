@@ -1,21 +1,16 @@
 import './css/userProfile.css'; 
-import AdvicePosts from './AdvicePosts';
-import CommunityPage from './communityPage';
-import ResourcesPage from './resourcesPage';
+import AdvicePosts from './advice/AdvicePosts';
+import CommunityPage from './community/communityPage';
+import ResourcesPage from './resources/resourcesPage';
 import React, { useState, useEffect } from 'react';
 import PersonalDashboardPage from './personalDashboard';
 
-
-function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
+function UserProfile({ user, onLogout }) {
     const [activeTab, setActiveTab] = useState(null);
-    const [showCreateAdvicePosts, setCreateAdvicePosts] = useState(false);
     
     useEffect(() => {
-        // Store the current page and user in localStorage whenever they change
         setActiveTab(localStorage.getItem('activeTab'));
     }, []);
-
-    
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -31,20 +26,14 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
             handleTabChange(null);
             onLogout(data);
         } catch (error) {
-            //setError(error.message);
         }
     };
 
     const handleTabChange = (tab) => {
         localStorage.setItem('activeTab', tab);
         setActiveTab(tab);
-        setCreateAdvicePosts(false);
 
     };
-
-    const toggleCreatePosts = () => {
-        setCreateAdvicePosts(!showCreateAdvicePosts);
-    }
 
     return (
         <React.Fragment>
@@ -64,8 +53,6 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
                         <img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/home-button-icon.png" alt="Home" />
             </button>
         </div>
-
-
         <div className="profile-sections">
             <div className="section-content">
                 {activeTab === 'advice' && <AdvicePosts user={user}/>}
@@ -74,11 +61,6 @@ function UserProfile({ user, onLogout, adviceNav, postCreateNav, onNavigate }) {
                 {activeTab== "null" && <PersonalDashboardPage user={user}/>}
             </div>
         </div>
-
-        
-            
-
-
         </React.Fragment>
     );
 }

@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, send_from_directory
 from flask_cors import CORS
-from userAuth.auth import auth_routes
 
 main_routes = Blueprint('main_routes', __name__)
 CORS(main_routes)
