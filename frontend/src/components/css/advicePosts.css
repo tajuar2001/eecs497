@@ -1,7 +1,7 @@
 .advice-posts {
     max-width: 1000px; /* Increased from 800px */
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px;
   }
   
   .advice-post {
@@ -67,3 +67,41 @@
   .reply-author strong {
     font-weight: bold;
   }
+
+  /* search bar */
+
+  .search-bar {
+    position: fixed;
+    top: 5%;
+    right: 20px;
+    width: 200px;
+    background-color: #ffffff;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex; 
+    justify-content: space-between; 
+  }
+  
+  .search-bar input[type="text"] {
+    width: calc(100% - 70px);
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-bar button {
+    width: 60px;
+    padding: 6px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-bar button:hover {
+    background-color: #0056b3;
+  }
+  
