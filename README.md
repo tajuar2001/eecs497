@@ -125,8 +125,7 @@ We appreciate your contributions and will review your pull request as soon as po
 If you have any questions, suggestions, or feedback, please don't hesitate to reach out to us. You can contact the New Leaf team at:
 
 - Email: info@newleaf.com
-- Twitter: [@newleafapp](https://twitter.com/newleafapp)
-- Facebook: [New Leaf App](https://www.facebook.com/newleafapp)
+- X: [@newleafapp](https://twitter.com/newleafapp)
 
 We value your input and are committed to creating the best possible experience for our users.
 
