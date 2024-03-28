@@ -93,7 +93,7 @@ To run New Leaf locally on your machine, follow these steps:
    flask run
    ```
 
-5. Open your web browser and navigate to `http://localhost:5000` to access New Leaf.
+5. Open your web browser and navigate to `http://localhost:3000` to access New Leaf.
 
 ## Contributing
 
