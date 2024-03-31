@@ -62,7 +62,8 @@ function PersonalDashboardPage({ user }) {
     return (
         <div className="dashboard-container">
             <div className="user-info">
-            <img src={profilePictureUrl} alt="User" className="user-picture" />                <div className="user-details">
+            <img src={profilePictureUrl} alt="User" className="user-picture" />                
+            <div className="user-details">
                     <h2 className="profile-name">Personal Dashboard</h2>
                     <p>Hello, {user.name}</p>
                     <p className="date">{today}</p>

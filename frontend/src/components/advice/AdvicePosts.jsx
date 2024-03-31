@@ -65,6 +65,7 @@ function AdvicePosts({ user }) {
         />
         <button onClick={handleSearch}>Search</button>
       </div>
+      <h2>Advice</h2>
       {posts.length === 0 && searchQuery.trim() !== '' ? (
         <p>No relevant results found.</p>
       ) : (

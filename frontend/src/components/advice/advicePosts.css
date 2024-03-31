@@ -1,107 +1,142 @@
+.advice-posts-container {
+  top: 10%;
+  display: flex;
+  justify-content: center;
+}
+
 .advice-posts {
-    max-width: 1000px; /* Increased from 800px */
-    margin: 0 auto;
-    padding: 40px;
-  }
-  
-  .advice-post {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 30px; /* Increased from 20px */
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .post-content {
-    margin-bottom: 20px;
-  }
-  
-  .post-author {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .profile-picture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .post-author strong {
-    font-weight: bold;
-  }
-  
-  .delete-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .delete-btn:hover {
-    background-color: #c82333;
-  }
-  
-  .replies-container {
-    margin-top: 20px;
-  }
-  
-  .reply {
-    background-color: #e9ecef;
-    border-radius: 8px;
-    padding: 20px; /* Increased from 10px */
-    margin-bottom: 10px;
-  }
-  
-  .reply-author {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-  }
-  
-  .reply-author strong {
-    font-weight: bold;
-  }
+  max-width: 800px; /* ADJUST THIS VAL */
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  /* search bar */
+.advice-post {
+  background-color: #ffffff;
+  overflow-wrap: break-word;
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  margin: 0 auto;
+}
 
-  .search-bar {
-    position: fixed;
-    top: 5%;
-    right: 20px;
-    width: 200px;
-    background-color: #ffffff;
-    padding: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: flex; 
-    justify-content: space-between; 
-  }
-  
-  .search-bar input[type="text"] {
-    width: calc(100% - 70px);
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .search-bar button {
-    width: 60px;
-    padding: 6px;
-    border: none;
-    background-color: #007bff;
-    color: #ffffff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .search-bar button:hover {
-    background-color: #0056b3;
-  }
-  
+.advice-post:hover {
+  transform: translateY(-5px);
+}
+
+.post-content {
+  margin-bottom: 20px;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-author strong {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333333;
+}
+
+.post-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555555;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.replies-container {
+  margin-top: 30px;
+}
+
+.reply {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reply-author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.reply-author strong {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333333;
+}
+
+.reply p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555555;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-bar input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-bar button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}

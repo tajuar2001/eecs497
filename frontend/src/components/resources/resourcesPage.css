@@ -1,37 +1,65 @@
 .resources-container {
-    text-align: center;
-    max-width: 1200px; /* Adjust the max width as needed */
-    margin: 0 auto; /* Center the container */
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f8f8;
+}
+
+h2 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.resource-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+}
+
+.resource-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.resource-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
   .resources-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns */
-    grid-template-rows: repeat(2, 1fr); /* 2 rows */
-    gap: 1rem; /* Space between cards */
-    padding: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
   }
-  
-  .resource-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem ;
-    border-radius: 8px;
-    color: white; /* Text color */
-    transition: transform 0.2s ease-in-out;
+}
+
+@media (max-width: 600px) {
+  .resources-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(10, 1fr);
   }
-  
-  .resource-name {
-    margin-top: 0.5rem;
-    font-weight: bold;
-  }
-  
-  /* Responsive grid adjustment */
-  @media (max-width: 768px) {
-    .resources-grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
-    }
-  }
-  
+}
