@@ -16,6 +16,7 @@ function CommunityPage({ user }) {
     fetchCommunities();
     fetchUserCommunities();
     fetchRecommendedCommunities();
+    localStorage.setItem('activeResource', null);
     const storedCommunity = JSON.parse(localStorage.getItem('selectedCommunity'));
     if (storedCommunity) {
       setSelectedCommunity(storedCommunity);

@@ -5,7 +5,7 @@
 }
 
 .advice-posts {
-  max-width: 800px; /* ADJUST THIS VAL */
+  max-width: 800px;
   padding: 40px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f8f9fa;
@@ -60,6 +60,33 @@
   color: #555555;
 }
 
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.post-actions button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.post-actions button:hover {
+  background-color: #0056b3;
+}
+
 .delete-btn {
   background-color: #dc3545;
   color: white;
@@ -67,7 +94,6 @@
   border-radius: 4px;
   padding: 8px 16px;
   cursor: pointer;
-  margin-top: 15px;
   font-size: 14px;
   transition: background-color 0.3s ease;
 }
@@ -76,11 +102,11 @@
   background-color: #c82333;
 }
 
-.replies-container {
+.comments-container {
   margin-top: 30px;
 }
 
-.reply {
+.comment {
   background-color: #f8f9fa;
   border-radius: 8px;
   padding: 20px;
@@ -88,22 +114,43 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.reply-author {
+.comment-author {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.reply-author strong {
+.comment-author strong {
   font-weight: bold;
   font-size: 16px;
   color: #333333;
 }
 
-.reply p {
+.comment p {
   font-size: 14px;
   line-height: 1.6;
   color: #555555;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comment-actions button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 12px;
+}
+
+.comment-actions button:hover {
+  background-color: #0056b3;
 }
 
 .search-bar {

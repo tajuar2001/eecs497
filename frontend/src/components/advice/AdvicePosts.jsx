@@ -7,6 +7,7 @@ import PostReply from './PostReply';
 function AdvicePosts({ user }) {
   const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categories, setCategories] = useState([]);
 
   const fetchPosts = () => {
     axios
@@ -15,8 +16,16 @@ function AdvicePosts({ user }) {
       .catch(error => console.error('There was an error fetching the advice posts:', error));
   };
 
+  const fetchCategories = () => {
+    axios
+      .get('/api/advice/categories')
+      .then(response => setCategories(response.data))
+      .catch(error => console.error('There was an error fetching the categories:', error));
+  };
+
   useEffect(() => {
     fetchPosts();
+    fetchCategories();
   }, []);
 
   const handleDeletePost = postId => {
@@ -29,16 +38,15 @@ function AdvicePosts({ user }) {
       .catch(error => console.error('There was an error deleting the advice post:', error));
   };
 
-  const handleDeleteReply = (postId, replyId) => {
+  const handleDeleteComment = (postId, commentId) => {
     axios
-      .delete(`/api/advice/${postId}/reply/${replyId}`)
+      .delete(`/api/advice/${postId}/comment/${commentId}`)
       .then(() => {
-        alert('Deleted reply!');
+        alert('Deleted comment!');
         fetchPosts(); // Refresh the posts after deleting
       })
-      .catch(error => console.error('There was an error deleting the reply:', error));
+      .catch(error => console.error('There was an error deleting the comment:', error));
   };
-
 
   const handleSearch = () => {
     if (searchQuery.trim() === '') {
@@ -46,11 +54,39 @@ function AdvicePosts({ user }) {
     } else {
       const filteredPosts = posts.filter(post => {
         const postContent = post.question.toLowerCase();
-        const repliesContent = post.replies.map(reply => reply.text.toLowerCase()).join(' ');
+        const commentsContent = post.comments.map(comment => comment.content.toLowerCase()).join(' ');
         const searchTerm = searchQuery.toLowerCase();
-        return postContent.includes(searchTerm) || repliesContent.includes(searchTerm);
+        return postContent.includes(searchTerm) || commentsContent.includes(searchTerm);
       });
       setPosts(filteredPosts);
+    }
+  };
+
+  const handleUpvote = (postId, commentId) => {
+    if (commentId) {
+      axios
+        .post(`/api/advice/${postId}/comment/${commentId}/upvote`)
+        .then(() => fetchPosts())
+        .catch(error => console.error('There was an error upvoting the comment:', error));
+    } else {
+      axios
+        .post(`/api/advice/${postId}/upvote`)
+        .then(() => fetchPosts())
+        .catch(error => console.error('There was an error upvoting the post:', error));
+    }
+  };
+
+  const handleDownvote = (postId, commentId) => {
+    if (commentId) {
+      axios
+        .post(`/api/advice/${postId}/comment/${commentId}/downvote`)
+        .then(() => fetchPosts())
+        .catch(error => console.error('There was an error downvoting the comment:', error));
+    } else {
+      axios
+        .post(`/api/advice/${postId}/downvote`)
+        .then(() => fetchPosts())
+        .catch(error => console.error('There was an error downvoting the post:', error));
     }
   };
 
@@ -79,28 +115,39 @@ function AdvicePosts({ user }) {
                 <strong>Question by {post.author}: </strong>
               </div>
               <p>{post.question}</p>
-              {user.name === post.author && (
-                <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>
-                  Delete
-                </button>
-              )}
+              <div className="post-meta">
+                <span>Category: {categories.find(cat => cat.id === post.category_id)?.name}</span>
+                <div className="post-actions">
+                  <button onClick={() => handleUpvote(post.id)}>Upvote ({post.upvotes})</button>
+                  <button onClick={() => handleDownvote(post.id)}>Downvote ({post.downvotes})</button>
+                  {user.name === post.author && (
+                    <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>
+                      Delete
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="replies-container">
-              {post.replies &&
-                post.replies.map(reply => (
-                  <div key={reply.id} className="reply">
-                    <div className="reply-author">
-                      {reply.author_image_url && (
-                        <img src={reply.author_image_url} alt="Author Profile" className="profile-picture" />
+            <div className="comments-container">
+              {post.comments &&
+                post.comments.map(comment => (
+                  <div key={comment.id} className="comment">
+                    <div className="comment-author">
+                      {comment.author_image_url && (
+                        <img src={comment.author_image_url} alt="Author Profile" className="profile-picture" />
                       )}
-                      <strong>Reply by {reply.author}: </strong>
+                      <strong>Comment by {comment.author}: </strong>
                     </div>
-                    <p>{reply.text}</p>
-                    {user.name === reply.author && (
-                      <button className="delete-btn" onClick={() => handleDeleteReply(post.id, reply.id)}>
-                        Delete
-                      </button>
-                    )}
+                    <p>{comment.content}</p>
+                    <div className="comment-actions">
+                      <button onClick={() => handleUpvote(post.id, comment.id)}>Upvote ({comment.upvotes})</button>
+                      <button onClick={() => handleDownvote(post.id, comment.id)}>Downvote ({comment.downvotes})</button>
+                      {user.name === comment.author && (
+                        <button className="delete-btn" onClick={() => handleDeleteComment(post.id, comment.id)}>
+                          Delete
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ))}
               <PostReply postId={post.id} refreshPage={fetchPosts} />
@@ -108,7 +155,7 @@ function AdvicePosts({ user }) {
           </div>
         ))
       )}
-      <CreateAdvicePost refreshPage={fetchPosts} />
+      <CreateAdvicePost categories={categories} refreshPage={fetchPosts} />
     </div>
   );
 }

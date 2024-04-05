@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from userAuth.auth import auth_routes, db
 from userAdvice.advicePosts import advice_posts_bp
 from userCommunity.community import community_bp
+from userAdvice.advicePosts import Category
 
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 
@@ -35,4 +36,5 @@ app.register_blueprint(community_bp, url_prefix='/api')
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        Category.insert_initial_categories()
     app.run(debug=True)

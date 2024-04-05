@@ -6,7 +6,7 @@ function PostReply({ postId, refreshPage }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post(`/api/advice/${postId}/reply`, { text })
+        axios.post(`/api/advice/${postId}/comment`, { text })
             .then(response => {
                 alert('Reply posted successfully');
                 setText('');

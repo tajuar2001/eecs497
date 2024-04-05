@@ -24,6 +24,7 @@ function UserProfile({ user, onLogout }) {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Failed to login');
             handleTabChange(null);
+            localStorage.setItem('activeResource', null);
             onLogout(data);
         } catch (error) {
         }
