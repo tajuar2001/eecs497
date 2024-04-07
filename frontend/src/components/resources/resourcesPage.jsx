@@ -11,6 +11,16 @@ import HealthcarePage from './components/HealthcarePage.jsx';
 import CollegeFund from './components/CollegeFund.jsx';
 import EtcPage from './components/EtcPage.jsx';
 import { useState, useEffect } from 'react';
+import budgetLogo from '../images/budgeting.png';
+import livingExpenseLogo from '../images/money.png';
+import educationLogo from '../images/education.png';
+import foodLogo from '../images/food.png';
+import parksLogo from '../images/parks.png';
+import shoppingLogo from '../images/shopping.png';
+import daycareLogo from '../images/daycare.png';
+import healthcareLogo from '../images/healthcare.png';
+import collegeFundLogo from '../images/college.png';
+import etcLogo from '../images/etc.png';
 
 function ResourcesPage() {
   const [activeResource, setActiveResource] = useState(
@@ -22,16 +32,16 @@ function ResourcesPage() {
   }, [activeResource]);
 
   const resources = [
-    { name: 'Budgeting', icon: 'budget-icon', color: 'red', Component: BudgetingPage },
-    { name: 'Living Expense', icon: 'living-expense-icon', color: 'blue', Component: LivingExpense },
-    { name: 'Education', icon: 'education-icon', color: 'green', Component: EducationPage },
-    { name: 'Food', icon: 'food-icon', color: 'yellow', Component: FoodPage },
-    { name: 'Parks', icon: 'parks-icon', color: 'teal', Component: ParksPage },
-    { name: 'Shopping', icon: 'shopping-icon', color: 'lightblue', Component: ShoppingPage },
-    { name: 'Daycare', icon: 'daycare-icon', color: 'orange', Component: DaycarePage },
-    { name: 'Healthcare', icon: 'healthcare-icon', color: 'purple', Component: HealthcarePage },
-    { name: 'College Fund', icon: 'college-fund-icon', color: 'violet', Component: CollegeFund },
-    { name: 'Etc', icon: 'etc-icon', color: 'grey', Component: EtcPage }
+    { name: 'Budgeting', icon: budgetLogo, color: 'red', Component: BudgetingPage },
+    { name: 'Living Expense', icon: livingExpenseLogo, color: 'blue', Component: LivingExpense },
+    { name: 'Education', icon: educationLogo, color: 'green', Component: EducationPage },
+    { name: 'Food', icon: foodLogo, color: 'yellow', Component: FoodPage },
+    { name: 'Parks', icon: parksLogo, color: 'teal', Component: ParksPage },
+    { name: 'Shopping', icon: shoppingLogo, color: 'lightblue', Component: ShoppingPage },
+    { name: 'Daycare', icon: daycareLogo, color: 'orange', Component: DaycarePage },
+    { name: 'Healthcare', icon: healthcareLogo, color: 'purple', Component: HealthcarePage },
+    { name: 'College Fund', icon: collegeFundLogo, color: 'violet', Component: CollegeFund },
+    { name: 'Etc', icon: etcLogo, color: 'grey', Component: EtcPage }
   ];
 
 
@@ -74,7 +84,7 @@ function ResourcesPage() {
                className="resource-card"
                style={{ backgroundColor: resource.color }}
                onClick={() => handleResourceClick(resource.name)}>
-            <div className="resource-icon">{resource.icon}</div>
+              <img src = {resource.icon} className="resource-icon" />
             <div className="resource-name">{resource.name}</div>
           </div>
         ))}
