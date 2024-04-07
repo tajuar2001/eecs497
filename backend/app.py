@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_migrate import Migrate
+from routes import main_routes
+from userTag.tag import tag_bp
 from flask_caching import Cache
-from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from userKids.kids import kid_routes
 from userAuth.auth import auth_routes, db
 from userAdvice.advicePosts import advice_posts_bp
 from userCommunity.community import community_bp
@@ -20,11 +22,6 @@ CORS(app, supports_credentials=True)
 db.init_app(app)
 migrate = Migrate(app, db)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
-
-# Import and register blueprints
-from routes import main_routes
-from userKids.kids import kid_routes
-from userTag.tag import tag_bp
 
 app.register_blueprint(main_routes)
 app.register_blueprint(auth_routes)

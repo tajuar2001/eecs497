@@ -91,7 +91,6 @@ function CommunityPage({ user }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newCommunityName, description: newCommunityDescription }),
       });
-      const data = await response.json();
       setNewCommunityName('');
       setNewCommunityDescription('');
       fetchCommunities();

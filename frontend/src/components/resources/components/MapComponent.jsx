@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GOOGLE_MAPS_API_KEY } from './mapsAPI';
 import './css/parksPage.css';
 
 function MapComponent({ query }) {
   const [userLocation, setUserLocation] = useState(null);
-  const mapIframeRef = useRef(null);
 
   useEffect(() => {
     const getUserLocation = () => {
@@ -30,27 +29,17 @@ function MapComponent({ query }) {
 
     getUserLocation();
   }, []);
-
-  useEffect(() => {
-    // Refresh the map iframe when user location is provided
-    if (userLocation && mapIframeRef.current) {
-      mapIframeRef.current.src = mapIframeRef.current.src;
-    }
-  }, [userLocation]);
-
   return (
     <div className="parks-page-container">
-      {/* Embed Google Map with user's location-centered map and search for parks */}
       {userLocation && (
         <iframe
-          ref={mapIframeRef}
           title="Google Map"
           className="map-container"
           width="600"
           height="450"
           loading="lazy"
           allowFullScreen
-          src={`https://www.google.com/maps/embed/v1/search?key=${GOOGLE_MAPS_API_KEY}&center=${userLocation.lat},${userLocation.lng}&zoom=14&q=${query}+near+${userLocation.lat},${userLocation.lng}`}
+          src={`https://www.google.com/maps/embed/v1/search?key=${GOOGLE_MAPS_API_KEY}&center=${userLocation.lat},${userLocation.lng}&zoom=14&q=${query}`}
         ></iframe>
       )}
     </div>

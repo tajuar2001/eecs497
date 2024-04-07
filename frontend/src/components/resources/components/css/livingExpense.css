@@ -1,5 +1,6 @@
 .living-expense-page-container {
   max-width: 800px;
+  width: 600px;
   margin: 0 auto;
   padding: 40px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

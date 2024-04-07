@@ -3,7 +3,6 @@ from userAuth.auth import db
 from userAuth.auth import User
 from userTag.tag import add_tag_to_user
 
-# Models
 class AdvicePost(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     question = db.Column(db.String(1024), nullable=False)

@@ -16,7 +16,6 @@ class User(db.Model):
     profile_picture = db.Column(db.LargeBinary)
     advice_posts = db.relationship('AdvicePost', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='comment_author', lazy=True)
-    #replies = db.relationship('Reply', backref='reply_author', lazy=True)
     communities = db.relationship('Community', secondary='community_membership', backref='members', lazy=True)
 
     def set_password(self, password):
@@ -56,10 +55,8 @@ def register():
 def login():
     username = request.json['username']
     password = request.json['password']
-
     if not username or not password:
         return jsonify({'message': 'Username and password are required'}), 400
-
     if validate_user_credentials(username, password):
         user = User.query.filter_by(username=username).first()
         session['user_id'] = user.id

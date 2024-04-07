@@ -43,8 +43,6 @@ def add_tag_to_user(text, user_id):
 @tag_bp.route('/recommendations/<int:post_id>', methods=['GET'])
 def get_recommendations(post_id):
     k = request.args.get('k', default=5, type=int)
-    # Placeholder for actual recommendation logic
-    # Use `k` and `post_id` to generate recommendations
     return jsonify({"message": f"Recommendations for post {post_id} with k={k} not implemented."})
 
 @tag_bp.route('/user/tags', methods=['GET'])
