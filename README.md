@@ -1,3 +1,4 @@
+![New Leaf Community Logo](https://github.com/tajuar2001/newLeaf/blob/main/frontend/src/components/images/newLeafCommunity.png?raw=true)
 # New Leaf
 
 New Leaf is a comprehensive web application designed to support and guide new parents through the beautiful and challenging journey of parenthood. Our platform aims to create a nurturing community where parents can connect, share experiences, and access valuable resources to help them navigate the ups and downs of raising a child.
@@ -37,7 +38,6 @@ Every child is unique, and so are their needs. New Leaf offers a curated collect
 
 Your personal dashboard is your central hub on New Leaf. It provides a personalized overview of your parenting journey, including:
 
-- Upcoming milestones and reminders
 - Saved resources and discussions
 - Activity feed from your connected community members
 - Progress tracking for your child's development
@@ -66,7 +66,7 @@ New Leaf is built using a modern web development stack, including:
   - SQLite: A lightweight and file-based relational database
 
 - Deployment:
-  - Heroku: A cloud platform for deploying and running web applications
+  - AWS Elastic Beanstalk: Cloud deployment and scaling of the application
 
 ## Getting Started
 
@@ -95,37 +95,20 @@ To run New Leaf locally on your machine, follow these steps:
 
 5. Open your web browser and navigate to `http://localhost:3000` to access New Leaf.
 
-## Contributing
+## Credits
 
-We welcome contributions from the community to help improve and expand New Leaf. If you'd like to contribute, please follow these steps:
+New Leaf was created by:
+- **[alamt22](https://github.com/alamt22)** - Tobias Alam
+- **[tajuar2001](https://github.com/tajuar2001)** - Tajuar Bhuiyan
+- **[skozakai](https://github.com/skozakai)** - Seiya Kozakai
 
-1. Fork the repository on GitHub.
-
-2. Create a new branch for your feature or bug fix:
-   ```
-   git checkout -b my-feature
-   ```
-
-3. Make your changes and commit them with descriptive messages:
-   ```
-   git commit -m "Add new feature"
-   ```
-
-4. Push your changes to your forked repository:
-   ```
-   git push origin my-feature
-   ```
-
-5. Open a pull request on the main repository, describing your changes and their benefits.
-
-We appreciate your contributions and will review your pull request as soon as possible.
 
 ## Contact Us
 
 If you have any questions, suggestions, or feedback, please don't hesitate to reach out to us. You can contact the New Leaf team at:
 
 - Email: info@newleaf.com
-- X: [@newleaffam](https://twitter.com/newleafapp)
+- Twitter: [@newleafapp](https://twitter.com/newleafapp)
 
 We value your input and are committed to creating the best possible experience for our users.
 
