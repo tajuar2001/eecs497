@@ -31,13 +31,13 @@ function ResourcesPage() {
   }, [activeResource]);
 
   const resources = [
-    { name: 'Budgeting', icon: livingExpenseLogo, color: 'red', Component: LivingExpense },
-    { name: 'Education', icon: educationLogo, color: 'green', Component: EducationPage },
+    { name: 'Budgeting', icon: livingExpenseLogo, color: '#d12e3b', Component: LivingExpense },
+    { name: 'Education', icon: educationLogo, color: '#5DADE2', Component: EducationPage },
     { name: 'Food', icon: foodLogo, color: 'yellow', Component: FoodPage },
-    { name: 'Parks', icon: parksLogo, color: 'teal', Component: ParksPage },
+    { name: 'Parks', icon: parksLogo, color: 'coral', Component: ParksPage },
     { name: 'Shopping', icon: shoppingLogo, color: 'lightblue', Component: ShoppingPage },
     { name: 'Daycare', icon: daycareLogo, color: 'orange', Component: DaycarePage },
-    { name: 'Healthcare', icon: healthcareLogo, color: 'purple', Component: HealthcarePage },
+    { name: 'Healthcare', icon: healthcareLogo, color: '#AA98A9', Component: HealthcarePage },
     { name: 'College Fund', icon: collegeFundLogo, color: 'violet', Component: CollegeFund },
   ];
 

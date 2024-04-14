@@ -62,44 +62,47 @@ function PersonalDashboardPage({ user }) {
     return (
         <div className="dashboard-container">
             <div className="user-info">
-            <img src={profilePictureUrl} alt="User" className="user-picture" />                
-            <div className="user-details">
+                <img src={profilePictureUrl} alt="User" className="user-picture" />                
+                <div className="user-details">
                     <h2 className="profile-name">Personal Dashboard</h2>
                     <p>Hello, {user.name}</p>
                     <p className="date">{today}</p>
                 </div>
             </div>
-            <div className="kids-section">
-                <h3>My Kids</h3>
-                <ul>
-                    {kids.map((kid, index) => (
-                        <li key={index}>{kid.name} - {kid.birthday}</li>
-                    ))}
-                </ul>
-            </div>
-            <form onSubmit={handleAddKid} className="add-kid-form">
-                <input
-                    type="text"
-                    value={newKidName}
-                    onChange={e => setNewKidName(e.target.value)}
-                    placeholder="Kid's name"
-                    required
-                />
-                <input
-                    type="date"
-                    value={newKidBirthday}
-                    onChange={e => setNewKidBirthday(e.target.value)}
-                    required
-                />
-                <button type="submit">Add Kid</button>
-            </form>
-            <div className="tags-section">
-                <h3>My Tags</h3>
-                <ul>
-                    {tags.map((tag, index) => (
-                        <li key={index}>{tag.name}</li>
-                    ))}
-                </ul>
+            <div className="content-container">
+                <div className="kids-section">
+                    <h3>My Kids</h3>
+                    <ul>
+                        {kids.map((kid, index) => (
+                            <li key={index}>{kid.name} - {kid.birthday}</li>
+                        ))}
+                    </ul>
+                    <form onSubmit={handleAddKid} className="add-kid-form">
+                        <input
+                            type="text"
+                            value={newKidName}
+                            onChange={e => setNewKidName(e.target.value)}
+                            placeholder="Kid's name"
+                            required
+                        />
+                        <input
+                            type="date"
+                            value={newKidBirthday}
+                            onChange={e => setNewKidBirthday(e.target.value)}
+                            required
+                        />
+                        <button type="submit">Add Kid</button>
+                    </form>
+                </div>
+                
+                <div class="tags-section">
+                    <h3>My Tags</h3>
+                    <ul>
+                        {tags.map((tag, index) => (
+                            <li key={index}>{tag.name}</li>
+                        ))}
+                    </ul>
+                </div>
             </div>
             <button className="help-button" onClick={toggleHelpMode}>?</button>
             {helpModalOpen && <HelpPage onClose={toggleHelpMode} />}
