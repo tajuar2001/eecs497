@@ -7,7 +7,7 @@ New Leaf is a comprehensive web application designed to support and guide new pa
 
 ### Community Building
 
-At the heart of New Leaf is our vibrant community of parents. We understand that parenting can sometimes feel isolating, which is why we've created a space where you can connect with other parents who are going through similar experiences. Our community features allow you to:
+At the heart of New Leaf is our vibrant community of parsents. We understand that parenting can sometimes feel isolating, which is why we've created a space where you can connect with other parents who are going through similar experiences. Our community features allow you to:
 
 - Join and participate in discussions on various parenting topics
 - Share your own experiences, joys, and challenges

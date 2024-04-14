@@ -160,14 +160,14 @@ function CommunityPage({ user }) {
               <ul>
                 {communities.map((community) => (
                   <li key={community.id} onClick={() => handleCommunityClick(community)}>
-                    {community.creator_id === user.id && (
-                      <button onClick={(event) => handleDeleteCommunity(event, community.id)}>Delete Community</button>
-                    )}
                     {community.name}
                     {userCommunities.some((c) => c.id === community.id) ? (
                       <button onClick={(event) => handleLeaveCommunity(event, community.id)}>Leave</button>
                     ) : (
                       <button onClick={() => handleJoinCommunity(community.id)}>Join</button>
+                    )}
+                    {community.creator_id === user.id && (
+                      <button onClick={(event) => handleDeleteCommunity(event, community.id)}>Delete Community</button>
                     )}
                   </li>
                 ))}

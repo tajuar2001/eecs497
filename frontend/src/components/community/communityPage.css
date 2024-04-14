@@ -140,11 +140,17 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.community-details h2,
+.community-details h2 {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
 .community-details p {
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
+  font-size: 20px;
 }
 
 .search-bar {
@@ -273,5 +279,14 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  margin-right: 10px;
+}
+
+.post-author {
+  font-weight: 700;
+}
+
+.reply-author {
+  font-weight: 700;
   margin-right: 10px;
 }

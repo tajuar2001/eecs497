@@ -137,7 +137,7 @@ function CommunityDetails({ user, community, onBack }) {
                 {post.author_image_url && (
                   <img src={post.author_image_url} alt="Author" className="author-profile-picture" />
                 )}
-                <span className="post-author">{post.author}</span>: {post.content}
+                <span className="post-author">{post.author}</span>: {post.content} 
               </p>
               {post.user_id === user.id && (
                 <button onClick={() => handleDeletePost(post.id)}>Delete Post</button>
